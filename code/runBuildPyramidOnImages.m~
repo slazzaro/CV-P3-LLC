@@ -1,4 +1,4 @@
-function [labels] = runBuildPyramidOnImages(directory)
+function [featureMatrix, labelMatrix] = runBuildPyramidOnImages(directory)
 % readImages : reads in image data and exposure values
 %--------------------------------------------------------------------------
 %   Author: Saikat Gomes
@@ -20,11 +20,14 @@ function [labels] = runBuildPyramidOnImages(directory)
     subFolders=[dirContents(:).isdir]; % just subfolder
     folderNames = {dirContents(subFolders).name};    %subfolder names
     folderNames(ismember(folderNames,{'.','..'})) = []; %remove . & ..
-    labels = containers.Map;    
+    labels = containers.Map;
+    
+    filePaths = ['p1010843.jpg'; 'p1010844.jpg'; 'p1010845.jpg'; 'p1010846.jpg'; 'p1010847.jpg'];
+    filePaths = cellstr(filePaths);
+    
     for i=1:length(folderNames)
         oneFolder=folderNames{i};
-        labels(oneFolder)=i;
-        %display(strcat(oneFolder,'-->',num2str(labels(oneFolder))));
+        
     end
     
         
