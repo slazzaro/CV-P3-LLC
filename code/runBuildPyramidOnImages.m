@@ -1,4 +1,4 @@
-function [labels] = runBuildPyramidOnImages(directory,imgCount)
+function [results] = runBuildPyramidOnImages(directory,imgCount)
 % readImages : reads in image data and exposure values
 %--------------------------------------------------------------------------
 %   Author: Saikat Gomes
@@ -16,7 +16,7 @@ function [labels] = runBuildPyramidOnImages(directory,imgCount)
 %           filenames - a vector containing the names of the files
 %--------------------------------------------------------------------------
 
-    display(directory);    
+    %display(directory);    
     
     imgFiles = dir(strcat(directory,'*.jpg')); 
     imgTrainIdx = randperm(length(imgFiles),imgCount);
