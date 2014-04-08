@@ -11,6 +11,7 @@ function [ ] = main( mainDir )
         oneFolder=folderNames{i};
         labels(oneFolder)=i;
         %display(strcat(oneFolder,'-->',num2str(labels(oneFolder))));
+        runBuildPyramidOnImages(strcat(mainDir,'/',oneFolder,'/'),5);
     end
 end
 
