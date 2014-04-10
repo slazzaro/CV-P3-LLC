@@ -1,0 +1,173 @@
+<html>
+<head>
+</head>
+
+<!-- INTRO -->
+
+<body bgcolor="#000000" link="#C0C0C0" vlink="#808080" alink="#FF0000">
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="jquery.js"></script> 
+<!--http://kaioa.com/k/test/cyclotron/index.html-->
+<script type="text/javascript"  src="js/jquery.panoViewer.js"></script>
+
+<script> 
+$(function(){
+$("#includedContent").load("content.html"); 
+});
+</script> 
+
+<center>
+<table width=1300 >
+	<tr align=center>
+		<td colspan=2>
+			<font color="#58FAF4">
+			<h1><b>CS 766 Computer Vision Assignment 2: Panorama & Mosaics</b></h1>
+			</font>
+			<font color="#FFFFFF">			
+			<i>Saikat R. Gomes (<a href="mailto=saikat@cs.wisc.edu">saikat@cs.wisc.edu</a>) & Stephen Lazzaro (<a href="mailto=slazzaro@cs.wisc.edu">slazzaro@cs.wisc.edu</a>)</i>
+			</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			<hr>
+		</td>
+	</tr>
+	<tr>
+		<td width='315' alight=left valign=top>
+			<font color="ffffff">
+			<h2>
+			<font color="#A9F5F2">	
+			Contents
+			</font>
+			</h2>
+			<ol type="0">
+			  <li><a href="../index.html">Home</a></li>
+			  <li><a href="intro.html">Introduction<a></li>
+			    <li><a href="imgAcc.html">Image Acquisition</a></li>
+			    <li><a href="cc.html">Cylindrical Coordinates</a></li>
+			    <li><a href="sift.html">SIFT Feature detection</a></li>
+			    <li><a href="ransac.html">Ransac Translation</a></li>
+			    <li><a href="transalation.html">Stitching: Translastion</a></li>
+			    <li><a href="blending.html">Image Blending</a></li>		  
+			  <li>Results</li>
+			  <ol type="1">
+			    <li><a href="results1.html">Monona Terrace</a></li>
+			    <li><a href="results2.html">University</a></li>
+			    <li><a href="results3.html">CS Lobby (iPhone)</a></li>
+			  </ol>
+			  <li><a href="dataset.html">Datasets</a></li>
+			  <li><a href="code.html">Code</a></li>
+			  <li><a href="https://github.com/saikatgomes/CV-P2-PANO/commits/master" target="_blank">Git Logs<a></li>
+			  <li><a href="ref.html">References</a></li>
+			</ol>
+			</font>
+		</td>
+		<td align=left>
+	<!-- #### DISPLAY AREA ### -->
+			<font color="ffffff">
+<center> 
+<h2>Cylindrical Coordinates </h2>
+</center>
+
+<br>
+First, we warped our images into cylindrical coordinates using the following two equations:
+<br><br>
+	<center>theta  =  arctan(x / f);</center>
+	<center>h  =  y / sqrt(x^2 + f^2);</center>
+<br>
+In the above equations, f is the focal length, x is the x coordinate of the 2-d image representation, and y is the y coordinate of the 2-d image representation.  This gave us a cylindrical coordinate for each of our x,y positions in our images.  After this conversion, we warped our images back into cylindrical image coordinates using the following equations.
+<br>
+	<center>new_x  =  f * theta + x_center;</center>
+	<center>new_y  =  f * h + y_center;</center>
+<br>
+In the above equations, the terms x_center and y_center represent the center of the unwrapped cylinder for the cylindrical coordinates.  We used these new_x and new_y values to recreate our original images as cylindrical images.  Below, we show our original image (left) and its cylindrical image representation (right).
+<br>
+<br>
+<br>
+
+<center>
+<table>
+	<tr>
+		<td>	
+			<img src="img/cyl/IMG_1387.JPG" height=350>
+		</td>
+		<td>			
+			<img src="http://i.stack.imgur.com/7adXU.jpg">
+		</td>
+		<td>	
+			<img src="img/cyl/cy_4.JPG" height=350>
+		</td>
+	</tr>	
+</table>
+
+<table>
+	<tr>	
+		<td>
+			<img src="img/cyl/cy_1.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_2.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_3.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_4.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_5.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_6.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_7.JPG" height=200>
+		</td>
+	</tr>
+	<tr>	
+		<td>
+			<img src="img/cyl/cy_8.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_9.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_11.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_12.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_13.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_14.JPG" height=200>
+		</td>
+		<td>
+			<img src="img/cyl/cy_15.JPG" height=200>
+		</td>
+	</tr>
+</table>
+</center>
+
+			</font>
+	<!-- #### DISPLAY AREA ### -->			
+		</td>
+	</tr>
+	<tr align=center>
+		<td colspan=2>
+			<hr>
+			<img src="img/demo_photo.jpg"  width=1300>
+			<hr>
+		</td>
+
+	<tr>
+
+</table>
+</center>
+<body>
+</html>

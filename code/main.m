@@ -13,8 +13,15 @@ function [ finalFeatures, lblvector ] = main( mainDir ,imgCount)
     for i=1:length(folderNames)
         oneFolder=folderNames{i};
         labels(oneFolder)=i;
-        %display(strcat(oneFolder,'-->',num2str(labels(oneFolder))));
-        results=runBuildPyramidOnImages(strcat(mainDir,'/',oneFolder,'/'),imgCount);
+        
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] ', ...
+        ' Processing : ',oneFolder));
+    
+        results=runBuildPyramidOnImages(strcat(mainDir,'/', ...
+            oneFolder,'/'),imgCount);
+        
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] ', ...
+        ' Pryamid built for : ',oneFolder));
         
         for j=1:size(results,1);
            finalFeatures(count+j,:)=results(j,:);
@@ -23,5 +30,6 @@ function [ finalFeatures, lblvector ] = main( mainDir ,imgCount)
         
         count=count+size(results,1);
     end
+    deleteOldData(mainDir);
 end
 

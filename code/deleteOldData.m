@@ -12,7 +12,9 @@ function [ ] = deleteOldData( parentDir )
         delFoldersNames={delFolders(subDelFol).name};
         for j=1:length(delFoldersNames)
            oneDelF=delFoldersNames{j};
-           oneDelF=strcat(parentDir,'/',oneFolder,'/',oneDelF)
+           oneDelF=strcat(parentDir,'/',oneFolder,'/',oneDelF);
+           display(strcat(datestr(now,'HH:MM:SS'),' [INFO] ', ...
+                ' Removing: ',oneDelF));
            rmdir(oneDelF,'s');
         end    
     end

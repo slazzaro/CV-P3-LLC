@@ -1,0 +1,124 @@
+<html>
+<head>
+</head>
+
+<!-- INTRO -->
+
+<body bgcolor="#000000" link="#C0C0C0" vlink="#808080" alink="#FF0000">
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="jquery.js"></script> 
+<!--http://kaioa.com/k/test/cyclotron/index.html-->
+<script type="text/javascript"  src="js/jquery.panoViewer.js"></script>
+
+<script> 
+$(function(){
+$("#includedContent").load("content.html"); 
+});
+</script> 
+
+<center>
+<table width=1300 >
+	<tr align=center>
+		<td colspan=2>
+			<font color="#58FAF4">
+			<h1><b>CS 766 Computer Vision Assignment 2: Panorama & Mosaics</b></h1>
+			</font>
+			<font color="#FFFFFF">			
+			<i>Saikat R. Gomes (<a href="mailto=saikat@cs.wisc.edu">saikat@cs.wisc.edu</a>) & Stephen Lazzaro (<a href="mailto=slazzaro@cs.wisc.edu">slazzaro@cs.wisc.edu</a>)</i>
+			</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			<hr>
+		</td>
+	</tr>
+	<tr>
+		<td width='315' alight=left valign=top>
+			<font color="ffffff">
+			<h2>
+			<font color="#A9F5F2">	
+			Contents
+			</font>
+			</h2>
+			<ol type="0">
+			  <li><a href="../index.html">Home</a></li>
+			  <li><a href="intro.html">Introduction<a></li>
+			    <li><a href="imgAcc.html">Image Acquisition</a></li>
+			    <li><a href="cc.html">Cylindrical Coordinates</a></li>
+			    <li><a href="sift.html">SIFT Feature detection</a></li>
+			    <li><a href="ransac.html">Ransac Translation</a></li>
+			    <li><a href="transalation.html">Stitching: Translastion</a></li>
+			    <li><a href="blending.html">Image Blending</a></li>		  
+			  <li>Results</li>
+			  <ol type="1">
+			    <li><a href="results1.html">Monona Terrace</a></li>
+			    <li><a href="results2.html">University</a></li>
+			    <li><a href="results3.html">CS Lobby (iPhone)</a></li>
+			  </ol>
+			  <li><a href="dataset.html">Datasets</a></li>
+			  <li><a href="code.html">Code</a></li>
+			  <li><a href="https://github.com/saikatgomes/CV-P2-PANO/commits/master" target="_blank">Git Logs<a></li>
+			  <li><a href="ref.html">References</a></li>
+			</ol>
+			</font>
+		</td>
+		<td align=left>
+	<!-- #### DISPLAY AREA ### -->
+			<font color="ffffff">
+
+<h2> Running the Code </h2>
+The software implementation was done in Matlab.<br>
+The code package can be downloaded from <a href="../src">here</a>.<br></br>
+
+<b><u>Panorama creation with standard homography methods:</u></b></br></br>
+
+This functionality is implemented in the <a href="../code/">code folder</a>.</br></br>
+Syntax:</br>
+<b><i>PanoramaMainRansac( inDir , f , ransactype );</i></b> </br></br>
+where:</br>
+<b>inDir</b>: Name of the directory containing the images which should be ordered from left to right</br>
+<b>f</b>: the focal length of the camera used</br>
+<b>ransactype</b>: the type of RANSAC variation to use which should be an integer from 1 to 5.  The different RANSAC types for each integer are described below</br>
+<ol>
+<li>The standard RANSAC method with a n = 4, epsilon = 5, p = 0.2, and P = 0.99.</li>
+<li>RANSAC method where minimizing sum of squared residuals used.  For this case, n = 4, p = 0.2, and P = 0.99</li>
+<li>RANSAC method with randomizing epsilon on each iteration used.  For this case, n = 4, p = 0.2, and P = 0.99</li>
+<li>RANSAC method with randomizing n on each iteration used.  For this case, epsilon = 5, p = 0.2, and P = 0.99</li>
+<li>RANSAC method with randomizing epsilon and n on each iteration used.  For this case, p = 0.2, and P = 0.99</li>
+</ol>
+
+A unique output folder in the form of 'PANO_{$timestamp}_ransactype#' is created in the directory that is passed in:<br><br>
+Output Files:</br>
+Images for each stitching of the panorama and the final panorama warped and cropped.
+</br></br>
+
+<b><u>Average Vector Translation Panorama</u></b>
+</br></br>
+
+To run the simple average vector transtion panorama:</br></br>
+PanoramaMain(inDir, f, SIFT_thresh, blend, printVerbose, doSIFT_Test)<br></br>
+ex: PanoramaMain('../images/monona/final/simple2/',660.87,2.5,0,1,0);<br>
+
+
+			</font>
+
+	<!-- #### DISPLAY AREA ### -->			
+		</td>
+	</tr>
+	<tr align=center>
+		<td colspan=2>
+			<hr>
+			<img src="img/demo_photo.jpg"  width=1300>
+			<hr>
+		</td>
+
+	<tr>
+
+</table>
+</center>
+<body>
+</html>

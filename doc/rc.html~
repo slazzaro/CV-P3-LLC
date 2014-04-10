@@ -1,0 +1,140 @@
+<html>
+<head>
+</head>
+
+<!-- INTRO -->
+
+<body bgcolor="#000000" link="#C0C0C0" vlink="#808080" alink="#FF0000">
+<center>
+<table width=1300 >
+	<tr align=center>
+		<td colspan=2>
+			<font color="#58FAF4">
+			<h1><b>CS 766 Computer Vision Assignment 1: High Dynamic Range (HDR)</b></h1>
+			</font>
+			<font color="#FFFFFF">			
+			<i>Saikat R. Gomes (<a href="mailto=saikat@cs.wisc.edu">saikat@cs.wisc.edu</a>) & Stephen Lazzaro (<a href="mailto=slazzaro@cs.wisc.edu">slazzaro@cs.wisc.edu</a>)</i>
+			</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			</br>
+			<hr>
+		</td>
+	</tr>
+	<tr>
+		<td width='315' alight=left valign=top>
+			<font color="ffffff">
+			<h2>
+			<font color="#A9F5F2">	
+			Contents
+			</font>
+			</h2>
+			<ol type="0">
+			  <li><a href="../index.html">Home</a></li>
+			  <li><a href="intro.html">Introduction</a></li>
+			  <li><a href="implement.html">Implementation</a></li>
+			  <ol type="1">
+			    <li><a href="imgAcc.html">Image Acquisition</a></li>
+			    <li><a href="simple.html">Simple Pixel Averaging</a></li>
+			    <li><a href="rc.html">Response Curves</a></li>
+			    <li><a href="tonemap.html">Tone Mapping (Matlab)</a></li>
+			    <li><a href="rltm.html">Reinhard's Local Tone Mapping</a></li>
+			    <li><a href="rgtm.html">Reinhard's Global Tone Mapping</a></li>
+			    <li><a href="wards.html">Ward's Algorithm</a></li>
+			  </ol>
+			  <li><a href="results.html">Results Comparison 1</a></li>
+			  <li><a href="results2.html">Results Comparison 2</a></li>
+			  <li><a href="results3.html">Results Comparison 3</a></li>
+			  <li><a href="dataset.html">Datasets</a></li>
+			  <li><a href="code.html">Code</a></li>
+			  <li><a href="https://github.com/saikatgomes/CV-P1-HDR/commits/master" target="_blank">Git Logs<a></li>
+			  <li><a href="ref.html">References</a></li>
+			</ol>
+			</font>
+		</td>
+		<td align=left>
+	<!-- #### DISPLAY AREA ### -->
+			<font color="ffffff">
+
+<h2><center> Response Curves </center></h2>
+
+The camera response curve was estimated by solving the SVD.  Below are recovered response curves from 2 sets of images on the same camera with a 'smoothness' factor applied=50.
+
+<hr>
+				<table>
+					<tr>
+						<td>
+							<center>
+							<font color="ffffff">
+								Image Set 1</br>
+							</font>
+							<img src="img/img2.JPG" height="75"></br>
+							<img src="img/img1.JPG" height="75"></br>
+							<img src="img/img3.JPG" height="75"></br>
+							</center>
+						</td>
+						<td>	<center>
+							<font color="ffffff">
+								<h3>Recovered Response Curves (R,G,B)</h3>
+							</font>
+							<img src="img/rrcFarm.jpg" width="275">
+							<img src="img/grcFarm.jpg" width="275">
+							<img src="img/brcFarm.jpg" width="275"></br>
+							<font color="ffffff">
+							</font>
+							</center>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=2>
+							<hr>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<center>
+							<font color="ffffff">
+								Image Set 2</br>
+							</font>
+							<img src="img/IMG_9495.jpg" height="75"></br>
+							<img src="img/IMG_9496.jpg" height="75"></br>
+							<img src="img/IMG_9497.jpg" height="75"></br>
+							</center>
+						</td>
+						<td>	<center>
+							<font color="ffffff">
+								<h3>Recovered Response Curves (R,G,B)</h3>
+							</font>
+							<img src="img/rrcBuild.jpg" width="275">
+							<img src="img/grcBuild.jpg" width="275">
+							<img src="img/brcBuild.jpg" width="275"></br>
+							<font color="ffffff">
+							</font>
+							</center>
+						</td>
+					</tr>
+					
+				</table>
+ 
+
+
+
+			</font>
+
+	<!-- #### DISPLAY AREA ### -->			
+		</td>
+	</tr>
+	<tr align=center>
+		<td colspan=2>
+			<hr>
+			</br>
+		</td>
+
+	<tr>
+
+</table>
+</center>
+<body>
+</html>
