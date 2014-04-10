@@ -124,13 +124,18 @@ for f = 1:length(imageFileList)
         B_1x = B - one * x';
         C = B_1x * B_1x';
         %reconstruct LLC code
+        % reconstruct LLC code
         c_hat = C \ one;
         c_hat = c_hat /sum(c_hat);
-        % compute reconstruction error
-        diff = norm(c-c_hat)
+
+c
+c_hat
+% compute reconstruction error
+diff = norm(c-c_hat)
+
         
         %display(dist_mat);
-        %[min_dist, min_ind] = min(dist_mat, [], 2);
+        [min_dist, min_ind] = min(dist_mat, [], 2);
         %% TODO: CHANGE HERE
         %display(min_ind);
         %display(length(min_ind));

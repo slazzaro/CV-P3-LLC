@@ -9,7 +9,7 @@ filePaths = cellstr(filePaths);
 outDir=strcat('TestPyramid');
 mkdir(outDir);
 %imagePath = 'images/';
-imagePath = 'scene_categories/bedroom/';
+imagePath = '../scene_categories/bedroom/';
 
 % dirData = dir('../scene_categories/bedroom');      %# Get the data for the current directory
 % dirIndex = [dirData.isdir];  %# Find the index for directories
@@ -19,8 +19,8 @@ imagePath = 'scene_categories/bedroom/';
 % for i = 1:size(fileList,1)
 %     
 % end
-addpath('./SpatialPyramid/');
-results = BuildPyramid(filePaths, imagePath, strcat(outDir, '/'));
+%addpath('./SpatialPyramid/');
+results = BuildPyramidLLC(filePaths, imagePath, strcat(outDir, '/'));
 
 end
 
