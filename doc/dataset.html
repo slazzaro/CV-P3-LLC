@@ -1,0 +1,243 @@
+<html>
+<head>
+</head>
+
+<!-- INTRO -->
+
+<body bgcolor="#000000" link="#C0C0C0" vlink="#808080" alink="#FF0000">
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="jquery.js"></script> 
+<!--http://kaioa.com/k/test/cyclotron/index.html-->
+<script type="text/javascript"  src="js/jquery.panoViewer.js"></script>
+
+<script> 
+$(function(){
+$("#includedContent").load("content.html"); 
+});
+</script> 
+
+<center>
+<table width=1300 >
+	<tr align=center>
+		<td colspan=2>
+			<font color="#58FAF4">
+			<h1><b>CS 766 Computer Vision Assignment 2: Panorama & Mosaics</b></h1>
+			</font>
+			<font color="#FFFFFF">			
+			<i>Saikat R. Gomes (<a href="mailto=saikat@cs.wisc.edu">saikat@cs.wisc.edu</a>) & Stephen Lazzaro (<a href="mailto=slazzaro@cs.wisc.edu">slazzaro@cs.wisc.edu</a>)</i>
+			</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			<hr>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width='315' alight=left valign=top>
+			<font color="ffffff">
+			<h2>
+			<font color="#A9F5F2">	
+			Contents
+			</font>
+			</h2>
+			<ol type="0">
+			  <li><a href="../index.html">Home</a></li>
+			  <li><a href="intro.html">Introduction<a></li>
+			    <li><a href="imgAcc.html">Image Acquisition</a></li>
+			    <li><a href="cc.html">Cylindrical Coordinates</a></li>
+			    <li><a href="sift.html">SIFT Feature detection</a></li>
+			    <li><a href="ransac.html">Ransac Translation</a></li>
+			    <li><a href="transalation.html">Stitching: Translastion</a></li>
+			    <li><a href="blending.html">Image Blending</a></li>		  
+			  <li>Results</li>
+			  <ol type="1">
+			    <li><a href="results1.html">Monona Terrace</a></li>
+			    <li><a href="results2.html">University</a></li>
+			    <li><a href="results3.html">CS Lobby (iPhone)</a></li>
+			  </ol>
+			  <li><a href="dataset.html">Datasets</a></li>
+			  <li><a href="code.html">Code</a></li>
+			  <li><a href="https://github.com/saikatgomes/CV-P2-PANO/commits/master" target="_blank">Git Logs<a></li>
+			  <li><a href="ref.html">References</a></li>
+			</ol>
+			</font>
+		</td>
+		<td align=left>
+	<!-- #### DISPLAY AREA ### -->
+			<font color="ffffff">
+				Actual Datasets can be found bellow</br></br></br>
+
+				<a href="../dataset/manona/">Monona Terrance </a></br>
+				<center>				
+				<table>
+				<tr>
+					<td>
+						<img src="../dataset/manona/1.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/2.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/3.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/4.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/5.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/6.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/7.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/8.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/9.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/11.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/12.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/13.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/14.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/manona/15.JPG" width="75">
+					</td>
+				</tr>
+				</table>
+				</center>
+</br></br>
+				<a href="../dataset/test/">University (Test set)</a></br>
+				<center>
+				<table>
+				<tr>
+					<td>
+						<img src="../dataset/test/a.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/b.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/c.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/d.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/e.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/d.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/e.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/f.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/g.JPG" width="75">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<img src="../dataset/test/h.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/i.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/j.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/k.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/l.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/m.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/n.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/o.JPG" width="75">
+					</td>
+					<td>
+						<img src="../dataset/test/p.JPG" width="75">
+					</td>
+				</tr>
+				</table>
+				</center>
+</br></br>
+				<a href="../dataset/iphone/">CS Lobby</a></br>
+				<center>				
+				<table>
+				<tr>
+					<td>
+						<img src="../dataset/iphone/1.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/2.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/3.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/4.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/5.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/6.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/7.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/8.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/9.jpg" width="100">
+					</td>
+					<td>
+						<img src="../dataset/iphone/11.jpg" width="100">
+					</td>
+				</tr>
+				</table>
+				</center>
+
+			</font>
+</br></br>
+	<!-- #### DISPLAY AREA ### -->			
+		</td>
+	</tr>
+	<tr align=center>
+		<td colspan=2>
+			<hr>
+			<img src="img/demo_photo.jpg"  width=1300>
+			<hr>
+		</td>
+
+	<tr>
+
+</table>
+</center>
+<body>
+</html>

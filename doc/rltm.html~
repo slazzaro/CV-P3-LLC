@@ -1,0 +1,121 @@
+<html>
+<head>
+</head>
+
+<!-- INTRO -->
+
+<body bgcolor="#000000" link="#C0C0C0" vlink="#808080" alink="#FF0000">
+<center>
+<table width=1300 >
+	<tr align=center>
+		<td colspan=2>
+			<font color="#58FAF4">
+			<h1><b>CS 766 Computer Vision Assignment 1: High Dynamic Range (HDR)</b></h1>
+			</font>
+			<font color="#FFFFFF">			
+			<i>Saikat R. Gomes (<a href="mailto=saikat@cs.wisc.edu">saikat@cs.wisc.edu</a>) & Stephen Lazzaro (<a href="mailto=slazzaro@cs.wisc.edu">slazzaro@cs.wisc.edu</a>)</i>
+			</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			</br>
+			<hr>
+		</td>
+	</tr>
+	<tr>
+		<td width='315' alight=left valign=top>
+			<font color="ffffff">
+			<h2>
+			<font color="#A9F5F2">	
+			Contents
+			</font>
+			</h2>
+			<ol type="0">
+			  <li><a href="../index.html">Home</a></li>
+			  <li><a href="intro.html">Introduction</a></li>
+			  <li><a href="implement.html">Implementation</a></li>
+			  <ol type="1">
+			    <li><a href="imgAcc.html">Image Acquisition</a></li>
+			    <li><a href="simple.html">Simple Pixel Averaging</a></li>
+			    <li><a href="rc.html">Response Curves</a></li>
+			    <li><a href="tonemap.html">Tone Mapping (Matlab)</a></li>
+			    <li><a href="rltm.html">Reinhard's Local Tone Mapping</a></li>
+			    <li><a href="rgtm.html">Reinhard's Global Tone Mapping</a></li>
+			    <li><a href="wards.html">Ward's Algorithm</a></li>
+			  </ol>
+			  <li><a href="results.html">Results Comparison 1</a></li>
+			  <li><a href="results2.html">Results Comparison 2</a></li>
+			  <li><a href="results3.html">Results Comparison 3</a></li>
+			  <li><a href="dataset.html">Datasets</a></li>
+			  <li><a href="code.html">Code</a></li>
+			  <li><a href="https://github.com/saikatgomes/CV-P1-HDR/commits/master" target="_blank">Git Logs<a></li>
+			  <li><a href="ref.html">References</a></li>
+			</ol>
+			</font>
+		</td></font>
+		</td>
+		<td align=left>
+	<!-- #### DISPLAY AREA ### -->
+			<font color="ffffff">
+
+<h2><center> Reinhard's Local Tone Mapping </center></h2>
+
+Once the *.hdr file was created Reinhard's Local tonemapping operator was implemented (see <a href="code.html">code</a>) and applied with different saturation parameters to obtain tonemaps. Reinhard's Local Tone Mapping did not seem to work well with the farm set of images. </br>
+ 
+<hr>				
+				
+				<table>
+					<tr align=center>
+						<td>
+							<img src="img/ToneMap-Local800-150.jpg" width="485"></br>
+							<font color="ffffff">
+							Saturation=.81, Smoothness=150
+							</font>
+						</td>
+						<td>
+							<img src="img/ToneMap-Local1500-1.jpg" width="485"></br>
+							<font color="ffffff">
+							Saturation=1.5, Smoothness=1
+							</font>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=2>
+							<hr>
+						</td>
+					</tr>
+					<tr align=center>
+						<td>
+							<img src="img/ToneMap-Local600-50.jpg" width="485"></br>
+							<font color="ffffff">
+							Saturation=.6, Smoothness=50
+							</font>
+						</td>
+						<td>
+							<img src="img/ToneMap-Local1200-50.jpg" width="485"></br>
+							<font color="ffffff">
+							Saturation=1.2, Smoothness=150
+							</font>
+						</td>
+					</tr>
+				</table>
+
+
+			</font>
+
+	<!-- #### DISPLAY AREA ### -->			
+		</td>
+	</tr>
+	<tr align=center>
+		<td colspan=2>
+			<hr>
+			</br>
+		</td>
+
+	<tr>
+
+</table>
+</center>
+<body>
+</html>

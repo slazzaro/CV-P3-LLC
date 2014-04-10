@@ -1,0 +1,140 @@
+<html>
+<head>
+</head>
+
+<!-- INTRO -->
+
+<body bgcolor="#000000" link="#C0C0C0" vlink="#808080" alink="#FF0000">
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="jquery.js"></script> 
+<!--http://kaioa.com/k/test/cyclotron/index.html-->
+<script type="text/javascript"  src="js/jquery.panoViewer.js"></script>
+
+<script> 
+$(function(){
+$("#includedContent").load("content.html"); 
+});
+</script> 
+
+<center>
+<table width=1300 >
+	<tr align=center>
+		<td colspan=2>
+			<font color="#58FAF4">
+			<h1><b>CS 766 Computer Vision Assignment 2: Panorama & Mosaics</b></h1>
+			</font>
+			<font color="#FFFFFF">			
+			<i>Saikat R. Gomes (<a href="mailto=saikat@cs.wisc.edu">saikat@cs.wisc.edu</a>) & Stephen Lazzaro (<a href="mailto=slazzaro@cs.wisc.edu">slazzaro@cs.wisc.edu</a>)</i>
+			</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			<hr>
+		</td>
+	</tr>
+	<tr>
+		<td width='315' alight=left valign=top>
+			<font color="ffffff">
+			<h2>
+			<font color="#A9F5F2">	
+			Contents
+			</font>
+			</h2>
+			<ol type="0">
+			  <li><a href="../index.html">Home</a></li>
+			  <li><a href="intro.html">Introduction<a></li>
+			    <li><a href="imgAcc.html">Image Acquisition</a></li>
+			    <li><a href="cc.html">Cylindrical Coordinates</a></li>
+			    <li><a href="sift.html">SIFT Feature detection</a></li>
+			    <li><a href="ransac.html">Ransac Translation</a></li>
+			    <li><a href="transalation.html">Stitching: Translastion</a></li>
+			    <li><a href="blending.html">Image Blending</a></li>		  
+			  <li>Results</li>
+			  <ol type="1">
+			    <li><a href="results1.html">Monona Terrace</a></li>
+			    <li><a href="results2.html">University</a></li>
+			    <li><a href="results3.html">CS Lobby (iPhone)</a></li>
+			  </ol>
+			  <li><a href="dataset.html">Datasets</a></li>
+			  <li><a href="code.html">Code</a></li>
+			  <li><a href="https://github.com/saikatgomes/CV-P2-PANO/commits/master" target="_blank">Git Logs<a></li>
+			  <li><a href="ref.html">References</a></li>
+			</ol>
+			</font>
+		</td>
+		<td align=left>
+	<!-- #### DISPLAY AREA ### -->
+			<font color="ffffff">
+<h2> <center> Introduction </center> </h2>
+
+For this project, we took a series of images from a Canon A640 camera as well as an iPhone 5 camera and converted them into panoramas.  Our process for converting the images into panoramas was the following:
+	<ul>
+	<li> Warp each image into cylindrical coordinates (cropping the pictures where necessary) </li>
+</br>
+	<li> Use a feature based translational motion method to compute the alignment of each image relative to its subsequent partner image.  We found SIFT features for each of the images and then used the RANSAC method as well as an average vector translation method in order to estimate a homography between each image pair.  We also expanded on the standard RANSAC method with some variations in order to utilize better epsilon and n parameters. </li>
+	
+</br><li> Blend neighboring images together using the feather blending technique.  </li>
+	
+</br><li> Use a linear warp to remove vertical space between the first and last image, and then crop out surrounding black pixels as well as horizontal extents to match the left and right ends of the panorama. </li>
+	
+</br></ul>
+
+<center><h2>Extensions and Short Summary of Findings</h2></center>
+
+<ol> 
+<li>
+<b>Average Vector Translation:</b> 
+</br>
+</br>
+The average vector translation method consisted of first finding SIFT features for a pair of images.  Then, our algorithm throws out features that are unlikely to be in the overlap region.  Finally, it takes an average of the distance for each SIFT match and stitches the images together by shifting 1 image by that average amount.  This yielded very good results that were oftentimes better than the standard RANSAC/homography method, but part of that finding may be due to our images being taken with a steady camera frame.
+</li>
+<br>
+<li>
+<b>Cell phone images:</b> 
+</br>
+</br>
+We tested our algorithms on images taken from an iPhone 5 camera.  Our simple average vector translation actually yielded very good results for these images.
+</li>
+<br>
+<li>
+<b>Variation of RANSAC methods:</b> 
+</br>
+</br>
+In addition to implementing the standard RANSAC algorithm, we also expanded upon it with some variations in order to utilize better epsilon and n parameters.  One issue with the standard RANSAC algorithm is finding appropriate epsilon and n values for each set of images.  Rather than having to test different epsilons and n values for each set of images, we used a few different heuristics to attempt to use appropriate epsilon and n parameters for any arbitrary set of images.
+</li>
+<br>
+<li>
+<b>Pyramid blending:</b> 
+</br>
+</br>
+We used pyramid blending while stitching the mosaics. We experimented by only blending the overlap region and then used simple feather blending to stitch this overlap region to the rest of the mosaic.
+</li>
+</ol>
+</br>
+</br>
+ 
+<h3>Our Image (*.jpg) for submission can be found <a href="../to_be_vote.png">here<a></h3>
+
+
+
+			</font>
+	<!-- #### DISPLAY AREA ### -->			
+		</td>
+	</tr>
+	<tr align=center>
+		<td colspan=2>
+			<hr>
+			<img src="img/demo_photo.jpg"  width=1300>
+			<hr>
+		</td>
+
+	<tr>
+
+</table>
+</center>
+<body>
+</html>

@@ -1,0 +1,106 @@
+<html>
+<head>
+</head>
+
+<!-- INTRO -->
+
+<body bgcolor="#000000" link="#C0C0C0" vlink="#808080" alink="#FF0000">
+<center>
+<table width=1300 >
+	<tr align=center>
+		<td colspan=2>
+			<font color="#58FAF4">
+			<h1><b>CS 766 Computer Vision Assignment 1: High Dynamic Range (HDR)</b></h1>
+			</font>
+			<font color="#FFFFFF">			
+			<i>Saikat R. Gomes (<a href="mailto=saikat@cs.wisc.edu">saikat@cs.wisc.edu</a>) & Stephen Lazzaro (<a href="mailto=slazzaro@cs.wisc.edu">slazzaro@cs.wisc.edu</a>)</i>
+			</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			</br>
+			<hr>
+		</td>
+	</tr>
+	<tr>
+		<td width='315' alight=left valign=top>
+			<font color="ffffff">
+			<h2>
+			<font color="#A9F5F2">	
+			Contents
+			</font>
+			</h2>
+			<ol type="0">
+			  <li><a href="../index.html">Home</a></li>
+			  <li><a href="intro.html">Introduction</a></li>
+			  <li><a href="implement.html">Implementation</a></li>
+			  <ol type="1">
+			    <li><a href="imgAcc.html">Image Acquisition</a></li>
+			    <li><a href="simple.html">Simple Pixel Averaging</a></li>
+			    <li><a href="rc.html">Response Curves</a></li>
+			    <li><a href="tonemap.html">Tone Mapping (Matlab)</a></li>
+			    <li><a href="rltm.html">Reinhard's Local Tone Mapping</a></li>
+			    <li><a href="rgtm.html">Reinhard's Global Tone Mapping</a></li>
+			    <li><a href="wards.html">Ward's Algorithm</a></li>
+			  </ol>
+			  <li><a href="results.html">Results Comparison 1</a></li>
+			  <li><a href="results2.html">Results Comparison 2</a></li>
+			  <li><a href="results3.html">Results Comparison 3</a></li>
+			  <li><a href="dataset.html">Datasets</a></li>
+			  <li><a href="code.html">Code</a></li>
+			  <li><a href="https://github.com/saikatgomes/CV-P1-HDR/commits/master" target="_blank">Git Logs<a></li>
+			  <li><a href="ref.html">References</a></li>
+			</ol>
+			</font>
+		</td>
+		<td align=left>
+	<!-- #### DISPLAY AREA ### -->
+			<font color="ffffff">
+
+<h2><center> Ward's algorithm </center></h2>
+ 
+As creating HDR images requires taking pictures with various exposures, one possible issue that can arise is some movement in the camera between photos.  This would cause some of the pixels in the images to be misaligned and can possibly harm the HDR results.  Therefore, author Greg Ward (Ward, 2003) proposed a solution to this problem by describing a method that can be used to align images for better HDR results.  The method involves creating bitmaps of the images to be aligned, filtering them down by factors of two (as shown below), and then greedily searching for the alignment that minimizes the difference between images.<br>
+ 
+<table>
+					<tr align=center>
+						<td>
+							<img src="img/filterBuilding/map1_5.jpg" width = "400"></br>
+							<img src="img/filterBuilding/map1_4.jpg" width = "200"></br>
+							<img src="img/filterBuilding/map1_3.jpg" width = "100"></br>
+							<img src="img/filterBuilding/map1_2.jpg" width = "50"></br>
+							<img src="img/filterBuilding/map1_1.jpg" width = "25"></br>
+						</td>
+						<td>
+							<img src="img/filterBuilding/map2_5.jpg" width = "400"></br>
+							<img src="img/filterBuilding/map2_4.jpg" width = "200"></br>
+							<img src="img/filterBuilding/map2_3.jpg" width = "100"></br>
+							<img src="img/filterBuilding/map2_2.jpg" width = "50"></br>
+							<img src="img/filterBuilding/map2_1.jpg" width = "25"></br>
+						</td>
+					</tr>
+				</table>
+ 
+ 
+<br>
+In addition to implementing Ward's standard method, we also improved upon his method by putting the images through an edge filter before running the algorithm.  In order to test Ward's algorithm, we used our same HDR image set that contains 3 images but shifted the images by varying amounts. We found that putting the images through edge filters before running Ward's algorithm greatly improved our results.  Two main parameters in the Ward's algorithm are the maximum amount of bits that you allow the images to be shifted, as well as the noise tolerance.  In particular, without using an edge filter, the algorithm was much more likely to produce extremely large (and faulty) image shifts as we increased either/both parameter values.  Therefore, we found that using an edge filter improved results for all parameter values.
+
+
+
+			</font>
+
+	<!-- #### DISPLAY AREA ### -->			
+		</td>
+	</tr>
+	<tr align=center>
+		<td colspan=2>
+			<hr>
+			</br>
+		</td>
+
+	<tr>
+
+</table>
+</center>
+<body>
+</html>
