@@ -64,5 +64,14 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector]
     testfeatureVector = BuildPyramid(imgTest, mainDir, outDir);
     rmpath('../SpatialPyramid');
     
+    addpath('../liblinear/matlab');
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model'));
+    
+    model = train(str2double(trainLblVector'), sparse(str2double(trainfeatureVector')) );    
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
+    [predicted_label, accuracy, decision_values] = predict(str2double(testLblVector'), sparse(str2double(testfeatureVector')), model);
+    rmpath('../liblinear/matlab');
+    accuracy
+    %trainfeatureVector=htranspose(trainfeatureVector);
     %deleteData(mainDir);
 end
