@@ -1,0 +1,7 @@
+Cycle   97  Error 13166.212891
+Cycle   98  Error 13165.965820
+Cycle   99  Error 13165.684570
+Cycle  100  Error 13165.396484
+Warning: Maximum number of iterations has been exceeded
+Saving texton dictionary
+Building Histograms

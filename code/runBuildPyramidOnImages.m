@@ -1,4 +1,4 @@
-function [results] = runBuildPyramidOnImages(directory,imgCount)
+function [trainFeatures,testFeatures] = runBuildPyramidOnImages(pDir,directory,imgCount)
 % readImages : reads in image data and exposure values
 %--------------------------------------------------------------------------
 %   Author: Saikat Gomes
@@ -19,18 +19,27 @@ function [results] = runBuildPyramidOnImages(directory,imgCount)
     %display(directory);    
     
     imgFiles = dir(strcat(directory,'*.jpg')); 
-    imgTrainIdx = randperm(length(imgFiles),imgCount);
+    %imgTrainIdx = randperm(length(imgFiles),imgCount);
     
     for i = 1:imgCount
-        filename = imgFiles(imgTrainIdx(i)).name;
-        imgTrain{i}=filename;
+        %filename = imgFiles(imgTrainIdx(i)).name;
+        %imgTrain{i}=filename;
+        imgTrain{i}=imgFiles(i).name;
         %display(strcat(num2str(i),'] ',directory,filename));
     end
-    imgTrain=cellstr(imgTrain)
-    outDir=strcat(directory,'pry_',datestr(now,'mmddyyyy_HHMMSSFFF'));
+    count=1;
+    for j=imgCount+1:length(imgFiles)
+       imgTest{count}=imgFiles(j).name;
+       count=count+1;
+    end
+    imgTrain=cellstr(imgTrain);
+    imgTest=cellstr(imgTest);
+    %outDir=strcat(directory,'pry_',datestr(now,'mmddyyyy_HHMMSSFFF'));
+    outDir=strcat(pDir,'/data');
     mkdir(outDir);
     addpath('../SpatialPyramid');
-    results = BuildPyramid(imgTrain, directory, outDir);
+    trainFeatures = BuildPyramid(imgTrain, directory, outDir);
+    testFeatures = BuildPyramid(imgTest, directory, outDir);
     rmpath('../SpatialPyramid');
     
     
