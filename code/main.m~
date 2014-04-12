@@ -70,15 +70,16 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector]
 %     trainLblVector=trainLblVector';
 %     testLblVector=testLblVector';
    
-    trainLblVector=double(trainLblVector);
-    trainfeatureVector=sparse(double(trainfeatureVector));
-    testLblVector=double(testLblVector);
-    testfeatureVector=sparse(double(testfeatureVector));
-        
+    trainLblVector=str2double(trainLblVector);
+    trainfeatureVector=sparse(str2double(trainfeatureVector));
+    length(trainLblVector)
+    size(trainfeatureVector,1)
+    size(trainfeatureVector,2)
+    
     model = train(trainLblVector, trainfeatureVector );    
     
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
-    [predicted_label, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
+    [predicted_label, accuracy, decision_values] = predict(str2double(testLblVector), sparse(str2double(testfeatureVector)), model);
     rmpath('../liblinear/matlab');
     accuracy
     %trainfeatureVector=htranspose(trainfeatureVector);
