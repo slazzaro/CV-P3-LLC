@@ -30,7 +30,7 @@ if(~exist('params','var'))
     params.maxImageSize = 1000;
     params.gridSpacing = 8;
     params.patchSize = 16;
-    params.dictionarySize = 200;
+    params.dictionarySize = 1024;
     params.numTextonImages = 50;
     params.pyramidLevels = 3;
 end
@@ -44,7 +44,7 @@ if(~isfield(params,'patchSize'))
     params.patchSize = 16;
 end
 if(~isfield(params,'dictionarySize'))
-    params.dictionarySize = 200;
+    params.dictionarySize = 1024;
 end
 if(~isfield(params,'numTextonImages'))
     params.numTextonImages = 50;
@@ -114,30 +114,45 @@ for f = 1:length(imageFileList)
     end
 
     %% compute histograms at the coarser levels
+    
+    %LLC CODE
+%     num_bins = binsHigh/2;
+%     for l = 2:params.pyramidLevels
+%         pyramid_cell{l} = zeros(num_bins, num_bins, params.dictionarySize);
+%         for i=1:num_bins
+%             for j=1:num_bins
+%                 normSquared = 0;
+%                 for index = 1:size(pyramid_cell{l}(3))
+%                    pyramid_cell{l}(i,j,index) = max([pyramid_cell{l-1}(2*i-1,2*j-1,index), ...
+%                        pyramid_cell{l-1}(2*i,2*j-1,index), ...
+%                         pyramid_cell{l-1}(2*i-1,2*j,index), pyramid_cell{l-1}(2*i,2*j,index)]); 
+%                     normSquared = normSquared + pyramid_cell{l}(i,j,index) ^ 2;
+%                 end
+%                 pyramid_cell{l}(i,j,:) = pyramid_cell{l}(i,j,:) / normSquared;
+%             end
+%         end
+%         num_bins = num_bins/2;
+%     end
+    
+    %ORIGINAL CODE
     num_bins = binsHigh/2;
     for l = 2:params.pyramidLevels
         pyramid_cell{l} = zeros(num_bins, num_bins, params.dictionarySize);
         for i=1:num_bins
             for j=1:num_bins
-                normSquared = 0;
-                for index = 1:size(pyramid_cell{l}(3))
-                   pyramid_cell{l}(i,j,index) = max([pyramid_cell{l-1}(2*i-1,2*j-1,index), ...
-                       pyramid_cell{l-1}(2*i,2*j-1,index), ...
-                        pyramid_cell{l-1}(2*i-1,2*j,index), pyramid_cell{l-1}(2*i,2*j,index)]); 
-                    normSquared = normSquared + pyramid_cell{l}(i,j,index) ^ 2;
-                end
-                pyramid_cell{l}(i,j,:) = pyramid_cell{l}(i,j,:) / normSquared;
+                pyramid_cell{l}(i,j,:) = ...
+                    pyramid_cell{l-1}(2*i-1,2*j-1,:) + pyramid_cell{l-1}(2*i,2*j-1,:) + ...
+                    pyramid_cell{l-1}(2*i-1,2*j,:) + pyramid_cell{l-1}(2*i,2*j,:);
             end
         end
         num_bins = num_bins/2;
     end
 
-    %% stack all the histograms with appropriate weights
+%% stack all the histograms with appropriate weights
     pyramid = [];
     for l = 1:params.pyramidLevels-1
         pyramid = [pyramid pyramid_cell{l}(:)' .* 2^(-l)];
     end
-    % TODO: CHANGE HERE
     pyramid = [pyramid pyramid_cell{params.pyramidLevels}(:)' .* 2^(1-params.pyramidLevels)];
 
     % save pyramid
