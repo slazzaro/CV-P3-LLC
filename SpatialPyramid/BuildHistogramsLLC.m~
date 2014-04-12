@@ -109,49 +109,66 @@ for f = 1:length(imageFileList)
     %run in batches to keep the memory foot print small
     batchSize = 100000;
     NEAREST_NEIGHBORS = 5;
+    FREQUENCY_MULTIPLIER = 1;
     if ndata <= batchSize
         dist_mat = sp_dist2(features.data, dictionary);
-        [sortedMat, indexes] = sortrows(dist_mat);
-        %construct codebook
-        B = sortedMat(1:NEAREST_NEIGHBORS)';
-        %create truth code
-        c = randn(NEAREST_NEIGHBORS, 1);
-        c = c / sum(c);
-        %compute feature
-        x = B' * c;
-        one = ones(NEAREST_NEIGHBORS, 1);
-        %compute data covariance matrix
-        B_1x = B - one * x';
-        C = B_1x * B_1x';
-        %reconstruct LLC code
-        % reconstruct LLC code
-        c_hat = C \ one;
-        c_hat = c_hat /sum(c_hat);
-
-c
-c_hat
-% compute reconstruction error
-diff = norm(c-c_hat)
-
-        
+        [sortedMat, indexes] = sort(dist_mat, 2);
+        nearestDistances = sortedMat(:,1:NEAREST_NEIGHBORS);
+        nearestDistances = normr(nearestDistances);
+        numDescriptors = size(dist_mat,1);
+        countForClusters = zeros(1:params.dictionarySize);
+        for row = 1:numDescriptors
+            for column = 1:NEAREST_NEIGHBORS
+                countCurrCluster = nearestDistances(row,column);
+                clusterNum = indexes(row, column);
+                countForClusters(clusterNum) = countForClusters(clusterNum) + countCurrCluster;
+            end
+        end
+        countForClusters = round(countForClusters);
+        totalCount = sum(countFor
+%         newMatFrequencies = zeros(numDescriptors * (FREQUENCY_MULTIPLIER + NEAREST_NEIGHBORS) * NEAREST_NEIGHBORS);
+%         counter = 1;
+%         for row = 1:numDescriptors
+%             for column = 1:NEAREST_NEIGHBORS
+%                 countCurrVal = ceil(nearestDistances(row,column) * FREQUENCY_MULTIPLIER);
+%                 clusterNum = indexes(row, column);
+%                 for index = 1:countCurrVal
+%                     newMatFrequencies(counter, 1) = clusterNum;
+%                     counter = counter + 1;
+%                 end
+%             end
+%         end
+%         newMatFrequencies = newMatFrequencies(newMatFrequencies ~= 0);
         %display(dist_mat);
-        [min_dist, min_ind] = min(dist_mat, [], 2);
+        %[min_dist, min_ind] = min(dist_mat, [], 2);
         %% TODO: CHANGE HERE
         %display(min_ind);
         %display(length(min_ind));
         %display('NEEEEEEEEEXTTTTTTTT');
-        texton_ind.data = min_ind;
+        texton_ind.data = newMatFrequencies;
     else
         for j = 1:batchSize:ndata
             lo = j;
             hi = min(j+batchSize-1,ndata);
             dist_mat = sp_dist2(features.data(lo:hi,:), dictionary);
-            [min_dist, min_ind] = min(dist_mat, [], 2);
-            %% TODO: CHANGE HERE
-            display(min_ind);
-            display(length(min_ind));
-            display('NEEEEEEEEEXTTTTTTTT2222222222222');
-            texton_ind.data(lo:hi,:) = min_ind;
+            [sortedMat, indexes] = sortrows(dist_mat);
+            nearestDistances = sortedMat(:,1:NEAREST_NEIGHBORS);
+            nearestDistances = normr(nearestDistances);
+            numDescriptors = size(dist_mat,1);
+            newMatFrequencies = zeros(numDescriptors * (FREQUENCY_MULTIPLIER + NEAREST_NEIGHBORS) * NEAREST_NEIGHBORS);
+            counter = 1;
+            for row = 1:numDescriptors
+                for column = 1:NEAREST_NEIGHBORS
+                    countCurrVal = ceil(nearestDistances(row,column) * FREQUENCY_MULTIPLIER);
+                    clusterNum = indexes(row, column);
+                    for index = 1:countCurrVal
+                        newMatFrequencies(counter, 1) = clusterNum;
+                        counter = counter + 1;
+                    end
+                end
+            end
+            newMatFrequencies = newMatFrequencies(newMatFrequencies ~= 0);
+            texton_ind.data(lo:hi,:) = newMatFrequencies;
         end
     end
     
