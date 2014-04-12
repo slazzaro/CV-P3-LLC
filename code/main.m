@@ -1,5 +1,5 @@
 %function [ imgTrain, imgTest, trainLblVector, testLblVector] = main( mainDir ,imgCount)
-function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector] = main( mainDir ,imgCount)
+function [ testLblVector, predictLblVector, mat, order] = main( mainDir ,imgCount)
 
     dirContents = dir(mainDir); % all dir contents
     subFolders=[dirContents(:).isdir]; % just subfolder
@@ -78,9 +78,12 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector]
     model = train(trainLblVector, trainfeatureVector );    
     
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
-    [predicted_label, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
+    [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     rmpath('../liblinear/matlab');
     accuracy
+    
+    [ mat, order ] = confusionMat(testLblVector, predictLblVector);
+    
     %trainfeatureVector=htranspose(trainfeatureVector);
     %deleteData(mainDir);
 end
