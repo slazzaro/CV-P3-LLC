@@ -134,20 +134,6 @@ for f = 1:length(imageFileList)
                counter = counter + 1; 
             end
         end
-%         newMatFrequencies = zeros(numDescriptors * (FREQUENCY_MULTIPLIER + NEAREST_NEIGHBORS) * NEAREST_NEIGHBORS);
-%         counter = 1;
-%         for row = 1:numDescriptors
-%             for column = 1:NEAREST_NEIGHBORS
-%                 countCurrVal = ceil(nearestDistances(row,column) * FREQUENCY_MULTIPLIER);
-%                 clusterNum = indexes(row, column);
-%                 for index = 1:countCurrVal
-%                     newMatFrequencies(counter, 1) = clusterNum;
-%                     counter = counter + 1;
-%                 end
-%             end
-%         end
-%         newMatFrequencies = newMatFrequencies(newMatFrequencies ~= 0);
-%         [min_dist, min_ind] = min(dist_mat, [], 2);
         texton_ind.data = histMatrix;
     else
         for j = 1:batchSize:ndata

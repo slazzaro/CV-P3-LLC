@@ -8,26 +8,21 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector]
     
     trainImgCount=0;
     testImgCount=0;
-    scenceCount=0;
-    
-    %first row will be actual number of test label, and second will be
-    %correct num of predictions
-    numScenes = length(folderNames);
+    sceneCount=0;
     
     for i=1:length(folderNames)
         %each folder=new scene
         oneFolder=folderNames{i};
         if strcmp(oneFolder ,'dataLLC') == 1
-            numScenes = numScenes - 1;
             continue;
         end
         
         localTrainCount=0;
         localTestCount=0;
-        scenceCount=scenceCount+1;
-        sceneNameList{scenceCount}=oneFolder;
+        sceneCount=sceneCount+1;
+        sceneNameList{sceneCount}=oneFolder;
         
-        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Processing images for scence "',oneFolder,'"'));
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Processing images for scene "',oneFolder,'"'));
         sceneDir = strcat(mainDir,'/',  oneFolder,'/');
         
         imgFiles = dir(strcat(sceneDir,'*.jpg')); 
@@ -36,14 +31,14 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector]
             trainImgCount=trainImgCount+1;
             localTrainCount=localTrainCount+1;
             imgTrain{trainImgCount}=strcat(oneFolder,'/',imgFiles(k).name);
-            trainLblVector(trainImgCount,1)=scenceCount;
+            trainLblVector(trainImgCount,1)=sceneCount;
         end
         
         for j=imgCount+1:length(imgFiles)
             testImgCount=testImgCount+1;
             localTestCount=localTestCount+1;
             imgTest{testImgCount}=strcat(oneFolder,'/',imgFiles(j).name);
-            testLblVector(testImgCount,1)=scenceCount;
+            testLblVector(testImgCount,1)=sceneCount;
         end
         
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] ... Train Images :',num2str(localTrainCount)));
@@ -53,9 +48,6 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector]
     imgTrain=cellstr(imgTrain);
     imgTest=cellstr(imgTest);
     sceneNameList=cellstr(sceneNameList);    
-    
-    trainfeatureVector=zeros(trainImgCount,4200); %morework
-    testfeatureVector=zeros(testImgCount,4200); %morework  
         
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total scenes : ',num2str(length(folderNames))));
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total train images : ',num2str(trainImgCount)));
@@ -71,27 +63,19 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector]
     
     addpath('../liblinear/matlab');
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model'));
-    
-%     trainLblVector=trainLblVector';
-%     testLblVector=testLblVector';
    
     trainLblVector=double(trainLblVector);
     trainfeatureVector=sparse(double(trainfeatureVector));
     testLblVector=double(testLblVector);
     testfeatureVector=sparse(double(testfeatureVector));
-        
+    
     model = train(trainLblVector, trainfeatureVector );    
     
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
     [predicted_label, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     rmpath('../liblinear/matlab');
-    accuracy
+    display(accuracy);
     
-    meanAccuracy = calcMeanAccuracy(numScenes, testLblVector, predicted_label);
-    display(meanAccuracy);
-    
-    %print mean accuracy for all the classes
-    %for i = 1:meanAccuracies
-    %trainfeatureVector=htranspose(trainfeatureVector);
-    %deleteData(mainDir);
+    meanAccuracy = calcMeanAccuracy(sceneCount, testLblVector, predicted_label);
+    display(strcat('Mean accuracy:', num2str(meanAccuracy),'%'));
 end

@@ -115,37 +115,46 @@ for f = 1:length(imageFileList)
 
     %% compute histograms at the coarser levels
     
-    %LLC CODE
+    %ORIGINAL CODE
 %     num_bins = binsHigh/2;
 %     for l = 2:params.pyramidLevels
 %         pyramid_cell{l} = zeros(num_bins, num_bins, params.dictionarySize);
 %         for i=1:num_bins
 %             for j=1:num_bins
-%                 normSquared = 0;
-%                 for index = 1:size(pyramid_cell{l}(3))
-%                    pyramid_cell{l}(i,j,index) = max([pyramid_cell{l-1}(2*i-1,2*j-1,index), ...
-%                        pyramid_cell{l-1}(2*i,2*j-1,index), ...
-%                         pyramid_cell{l-1}(2*i-1,2*j,index), pyramid_cell{l-1}(2*i,2*j,index)]); 
-%                     normSquared = normSquared + pyramid_cell{l}(i,j,index) ^ 2;
-%                 end
-%                 pyramid_cell{l}(i,j,:) = pyramid_cell{l}(i,j,:) / normSquared;
+%                 pyramid_cell{l}(i,j,:) = ...
+%                     pyramid_cell{l-1}(2*i-1,2*j-1,:) + pyramid_cell{l-1}(2*i,2*j-1,:) + ...
+%                     pyramid_cell{l-1}(2*i-1,2*j,:) + pyramid_cell{l-1}(2*i,2*j,:);
 %             end
+%         end
+%         if (any(pyramid_cell{l}) == 0)
+%             display('ALLLLLLLLLL ZEROEEEEEEEESS ORIGINALLLLL');
 %         end
 %         num_bins = num_bins/2;
 %     end
     
-    %ORIGINAL CODE
+    %LLC CODE
     num_bins = binsHigh/2;
     for l = 2:params.pyramidLevels
         pyramid_cell{l} = zeros(num_bins, num_bins, params.dictionarySize);
         for i=1:num_bins
             for j=1:num_bins
-                pyramid_cell{l}(i,j,:) = ...
-                    pyramid_cell{l-1}(2*i-1,2*j-1,:) + pyramid_cell{l-1}(2*i,2*j-1,:) + ...
-                    pyramid_cell{l-1}(2*i-1,2*j,:) + pyramid_cell{l-1}(2*i,2*j,:);
+                normSquared = 0;
+                for index = 1:params.dictionarySize
+                   pyramid_cell{l}(i,j,index) = max([pyramid_cell{l-1}(2*i-1,2*j-1,index), ...
+                       pyramid_cell{l-1}(2*i,2*j-1,index), ...
+                        pyramid_cell{l-1}(2*i-1,2*j,index), pyramid_cell{l-1}(2*i,2*j,index)]); 
+                    normSquared = normSquared + pyramid_cell{l}(i,j,index) ^ 2;
+                end
+                if (normSquared ~= 0)
+                    pyramid_cell{l}(i,j,:) = pyramid_cell{l}(i,j,:) / normSquared;
+                end
             end
         end
+        if (any(pyramid_cell{l}) == 0)
+            display('ALLLLLLLLLL ZEROEEEEEEEESS LLCCCCCCCCC');
+        end
         num_bins = num_bins/2;
+        %display(pyramid_cell{l});
     end
 
 %% stack all the histograms with appropriate weights
