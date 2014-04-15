@@ -1,5 +1,5 @@
 %function [ imgTrain, imgTest, trainLblVector, testLblVector] = main( mainDir ,imgCount)
-function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2, decision_values] = main( mainDir ,imgCount, isSaved)
+function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2, decision_values] = main( mainDir ,imgCount, isSaved, testName)
 
     if(isSaved==1)        
         load('vars/trainLblVector.mat');
@@ -97,23 +97,23 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     accuracy
     [ mat1, order1 ] = confusionMat(testLblVector, predictLblVector1);  
     
-    save('vars/predictLblVector1.mat','predictLblVector1');
-    save('vars/mat1.mat','mat1');
-    save('vars/order1.mat','order1');
+    save(strcat('vars/',testName,'_predictLblVector1.mat'),'predictLblVector1');
+    save(strcat('vars/',testName,'_mat1.mat'),'mat1');
+    save(strcat('vars/',testName,'_order1.mat'),'order1');
         
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
-    [predictLblVector2] = multiSVM(trainfeatureVector,trainLblVector,testfeatureVector);
+    [predictLblVector2] = multiSVM(trainfeatureVector,trainLblVector,testfeatureVector,testName);
     [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
     
-    save('vars/predictLblVector2.mat','predictLblVector2');
-    save('vars/mat2.mat','mat2');
-    save('vars/order2.mat','order2');
+    save(strcat('vars/',testName,'_predictLblVector2.mat'),'predictLblVector2');
+    save(strcat('vars/',testName,'_mat2.mat'),'mat2');
+    save(strcat('vars/',testName,'_order2.mat'),'order2');
     
     [ a1 ] = calcMeanAccuracy(15, testLblVector, predictLblVector1)
     [ a2 ] = calcMeanAccuracy(15, testLblVector, predictLblVector2)    
     
-    save('vars/a1.mat','a1');
-    save('vars/a2.mat','a2');
+    save(strcat('vars/',testName,'_a1.mat'),'a1');
+    save(strcat('vars/',testName,'_a2.mat'),'a2');
     
 %     addpath('../multiSVM');
 %     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    

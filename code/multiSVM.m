@@ -1,4 +1,4 @@
-function [ predictLblVector ] = multiSVM( trainfeatureVector,trainLblVector,testfeatureVector)
+function [ predictLblVector ] = multiSVM( trainfeatureVector,trainLblVector,testfeatureVector,testName)
 
     u=unique(trainLblVector);
     numClasses=length(u);
@@ -12,7 +12,7 @@ function [ predictLblVector ] = multiSVM( trainfeatureVector,trainLblVector,test
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training Model #',num2str(k))); 
         models(k) = svmtrain(trainfeatureVector,G1vAll,'kernel_function','rbf');
     end
-    save('vars/models.mat','models');
+    save(strcat('vars/',testName,'_models.mat'),'models');
 
     %classify test cases
     for j=1:size(testfeatureVector,1)
