@@ -94,8 +94,8 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     
     [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
     
-    [ a1 ] = calcMeanAccuracy(15, testLblVector, predicted_label1)
-    [ a2 ] = calcMeanAccuracy(15, testLblVector, predicted_label2)
+    [ a1 ] = calcMeanAccuracy(15, testLblVector, predictLblVector1)
+    [ a2 ] = calcMeanAccuracy(15, testLblVector, predictLblVector2)
     
 %     d_Mat=zeros(testImgCount,scenceCount);
     
