@@ -83,7 +83,13 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     accuracy
     [ mat1, order1 ] = confusionMat(testLblVector, predictLblVector1);    
     
+    addpath('../multiSVM');
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
+    [res] = multisvm(trainfeatureVector,trainLblVector,testfeatureVector) %predict(testLblVector, testfeatureVector, model);
+    rmpath('../multiSVM');
+    
     d_Mat=zeros(testImgCount,scenceCount);
+    
 %     
 %     for p=1:scenceCount
 %         addpath('../libsvm/matlab');
