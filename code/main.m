@@ -1,12 +1,18 @@
 %function [ imgTrain, imgTest, trainLblVector, testLblVector] = main( mainDir ,imgCount)
-function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2, decision_values] = main( mainDir ,imgCount, isSaved, testName)
+function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2, decision_values] = main( mainDir ,imgCount, useLLC, isSaved, testName)
+    
+    if(useLLC==1)
+        type='LLC'; 
+    else
+        type='';
+    end
 
     if(isSaved==1)        
-        load('vars/trainLblVector.mat');
-        load('vars/testLblVector.mat');
-        load('vars/testfeatureVector.mat');
-        load('vars/trainfeatureVector.mat');
-        load('vars/sceneNameList.mat');
+        load(strcat('vars/',type,'trainLblVector.mat'));
+        load(strcat('vars/',type,'testLblVector.mat'));
+        load(strcat('vars/',type,'testfeatureVector.mat'));
+        load(strcat('vars/',type,'trainfeatureVector.mat'));
+        load(strcat('vars/',type,'sceneNameList.mat'));
     else
         dirContents = dir(mainDir); % all dir contents
         subFolders=[dirContents(:).isdir]; % just subfolder
@@ -71,8 +77,13 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
         mkdir(outDir);
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));
         addpath('../SpatialPyramid');
-        trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir);
-        testfeatureVector = BuildPyramid(imgTest, mainDir, outDir);
+        if(useLLC==1)            
+            trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir);
+            testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir);
+        else
+            trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir);
+            testfeatureVector = BuildPyramid(imgTest, mainDir, outDir);
+        end        
         rmpath('../SpatialPyramid');
 
         trainLblVector=double(trainLblVector);
@@ -80,11 +91,11 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
         testLblVector=double(testLblVector);
         testfeatureVector=sparse(double(testfeatureVector));
 
-        save('vars/trainLblVector.mat','trainLblVector');
-        save('vars/testLblVector.mat','testLblVector');
-        save('vars/testfeatureVector.mat','testfeatureVector');
-        save('vars/trainfeatureVector.mat','trainfeatureVector');
-        save('vars/sceneNameList.mat','sceneNameList');
+        save(strcat('vars/',type,'trainLblVector.mat'),'trainLblVector');
+        save(strcat('vars/',type,'testLblVector.mat'),'testLblVector');
+        save(strcat('vars/',type,'testfeatureVector.mat'),'testfeatureVector');
+        save(strcat('vars/',type,'trainfeatureVector.mat'),'trainfeatureVector');
+        save(strcat('vars/',type,'sceneNameList.mat'),'sceneNameList');
     end
         
     addpath('../liblinear/matlab');
