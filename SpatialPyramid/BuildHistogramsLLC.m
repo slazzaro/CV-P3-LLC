@@ -31,7 +31,7 @@ if(~exist('params','var'))
     params.maxImageSize = 1000;
     params.gridSpacing = 8;
     params.patchSize = 16;
-    params.dictionarySize = 1024;
+    params.dictionarySize = 2048;
     params.numTextonImages = 50;
     params.pyramidLevels = 3;
 end
@@ -45,7 +45,7 @@ if(~isfield(params,'patchSize'))
     params.patchSize = 16;
 end
 if(~isfield(params,'dictionarySize'))
-    params.dictionarySize = 1024;
+    params.dictionarySize = 2048;
 end
 if(~isfield(params,'numTextonImages'))
     params.numTextonImages = 50;
