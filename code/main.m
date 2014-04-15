@@ -83,12 +83,21 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     accuracy
     [ mat1, order1 ] = confusionMat(testLblVector, predictLblVector1);    
     
-    addpath('../multiSVM');
-    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
-    [res] = multisvm(trainfeatureVector,trainLblVector,testfeatureVector) %predict(testLblVector, testfeatureVector, model);
-    rmpath('../multiSVM');
+%     addpath('../multiSVM');
+%     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
+%     [res] = multisvm(trainfeatureVector,trainLblVector,testfeatureVector) 
+%     %predict(testLblVector, testfeatureVector, model);
+%     rmpath('../multiSVM');
     
-    d_Mat=zeros(testImgCount,scenceCount);
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
+    [predictLblVector2] = multiSVM(trainfeatureVector,trainLblVector,testfeatureVector);
+    
+    [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
+    
+    [ a1 ] = calcMeanAccuracy(15, testLblVector, predicted_label1)
+    [ a2 ] = calcMeanAccuracy(15, testLblVector, predicted_label2)
+    
+%     d_Mat=zeros(testImgCount,scenceCount);
     
 %     
 %     for p=1:scenceCount
@@ -114,8 +123,8 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
 %     [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
 %     
 
-predictLblVector2=1;
-mat2=0;
-order2=0;
+% predictLblVector2=1;
+% mat2=0;
+% order2=0;
     %deleteData(mainDir);
 end

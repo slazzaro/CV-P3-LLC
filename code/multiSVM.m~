@@ -23,12 +23,11 @@ function [ predictLblVector ] = multiSVM( trainfeatureVector,trainLblVector,test
             end
         end
         if(isFound==0 && k==numClasses)
-            %k=1 + (15-1).*randi(100,1);
-            k=randi(15,1);
+            k=1 + (15-1).*rand(100,1);
         end
         
         predictLblVector(j) = k;
-        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] test #',num2str(j))); 
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] test #',j)); 
     end
 
 end
