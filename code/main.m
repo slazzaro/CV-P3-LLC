@@ -1,5 +1,5 @@
 %function [ imgTrain, imgTest, trainLblVector, testLblVector] = main( mainDir ,imgCount)
-function [ testLblVector, predictLblVector, mat, order] = main( mainDir ,imgCount)
+function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2] = main( mainDir ,imgCount)
 
     dirContents = dir(mainDir); % all dir contents
     subFolders=[dirContents(:).isdir]; % just subfolder
@@ -14,6 +14,10 @@ function [ testLblVector, predictLblVector, mat, order] = main( mainDir ,imgCoun
         %each folder=new scene
         oneFolder=folderNames{i};
         if strcmp(oneFolder ,'data') == 1
+            continue;
+        end
+        
+        if strcmp(oneFolder ,'dataLLC') == 1
             continue;
         end
         
@@ -64,26 +68,36 @@ function [ testLblVector, predictLblVector, mat, order] = main( mainDir ,imgCoun
     testfeatureVector = BuildPyramid(imgTest, mainDir, outDir);
     rmpath('../SpatialPyramid');
     
-    addpath('../liblinear/matlab');
-    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model'));
-    
-%     trainLblVector=trainLblVector';
-%     testLblVector=testLblVector';
-   
     trainLblVector=double(trainLblVector);
     trainfeatureVector=sparse(double(trainfeatureVector));
     testLblVector=double(testLblVector);
     testfeatureVector=sparse(double(testfeatureVector));
-        
-    model = train(trainLblVector, trainfeatureVector );    
     
-    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
-    [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
+    addpath('../liblinear/matlab');
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBLINEAR'));        
+    model = train(trainLblVector, trainfeatureVector );        
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
+    [predictLblVector1, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     rmpath('../liblinear/matlab');
+    
     accuracy
+    [ mat1, order1 ] = confusionMat(testLblVector, predictLblVector1);    
     
-    [ mat, order ] = confusionMat(testLblVector, predictLblVector);
+    d_Mat=zeros(testImgCount,scenceCount);
     
-    %trainfeatureVector=htranspose(trainfeatureVector);
+    for p=1:scenceCount
+        addpath('../libsvm/matlab');
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBSVM for Scene # ',p));        
+        model = svmtrain( trainfeatureVector ,trainLblVector );         
+        %model = svmtrain(trainLblVector, trainfeatureVector );     
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBSVM for Scene # ',p));    
+        [predictLblVector2, accuracy, decision_values] = svmpredict(testLblVector, testfeatureVector, model);
+        rmpath('../libsvm/matlab');        
+    end    
+   
+    
+    accuracy
+    [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
+    
     %deleteData(mainDir);
 end
