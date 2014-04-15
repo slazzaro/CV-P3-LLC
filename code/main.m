@@ -1,5 +1,5 @@
 %function [ imgTrain, imgTest, trainLblVector, testLblVector] = main( mainDir ,imgCount)
-function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2] = main( mainDir ,imgCount)
+function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2, decision_values] = main( mainDir ,imgCount)
 
     dirContents = dir(mainDir); % all dir contents
     subFolders=[dirContents(:).isdir]; % just subfolder
@@ -75,7 +75,7 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     
     addpath('../liblinear/matlab');
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBLINEAR'));        
-    model = train(trainLblVector, trainfeatureVector );        
+    model = train(trainLblVector, trainfeatureVector);        
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
     [predictLblVector1, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     rmpath('../liblinear/matlab');
@@ -84,20 +84,32 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     [ mat1, order1 ] = confusionMat(testLblVector, predictLblVector1);    
     
     d_Mat=zeros(testImgCount,scenceCount);
-    
-    for p=1:scenceCount
-        addpath('../libsvm/matlab');
-        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBSVM for Scene # ',p));        
-        model = svmtrain( trainfeatureVector ,trainLblVector );         
-        %model = svmtrain(trainLblVector, trainfeatureVector );     
-        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBSVM for Scene # ',p));    
-        [predictLblVector2, accuracy, decision_values] = svmpredict(testLblVector, testfeatureVector, model);
-        rmpath('../libsvm/matlab');        
-    end    
-   
-    
-    accuracy
-    [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
-    
+%     
+%     for p=1:scenceCount
+%         addpath('../libsvm/matlab');
+%         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBSVM for Scene # '));  
+%         subTrainVector=zeros(testImgCount);
+%         for q=1:testImgCount
+%             if trainLblVector(q) == p
+%                 subTrainVector(q)=1;
+%             else
+%                 subTrainVector(q)=0;
+%             end
+%         end
+%         model = svmtrain( trainfeatureVector ,trainLblVector);         
+%         %model = svmtrain(trainLblVector, trainfeatureVector );     
+%         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBSVM for Scene # '));    
+%         [predictLblVector2, accuracy, decision_values] = svmpredict(testLblVector, testfeatureVector, model);
+%         rmpath('../libsvm/matlab');        
+%     end    
+%    
+%     
+%     accuracy
+%     [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
+%     
+
+predictLblVector2=1;
+mat2=0;
+order2=0;
     %deleteData(mainDir);
 end
