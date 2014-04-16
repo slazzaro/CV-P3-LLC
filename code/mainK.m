@@ -1,5 +1,5 @@
 %function [ imgTrain, imgTest, trainLblVector, testLblVector] = main( mainDir ,imgCount)
-function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2, decision_values] = main( mainDir ,imgCount, useLLC, isSaved, testName)
+function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, order1, order2, decision_values] = mainK( mainDir ,imgCount, useLLC, isSaved, testName)
     
     if(useLLC==1)
         type='LLC'; 
@@ -66,8 +66,8 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
         imgTest=cellstr(imgTest);
         sceneNameList=cellstr(sceneNameList);    
 
-        trainfeatureVector=zeros(trainImgCount,4200); %morework
-        testfeatureVector=zeros(testImgCount,4200); %morework  
+        %trainfeatureVector=zeros(trainImgCount,4200); %morework
+        %testfeatureVector=zeros(testImgCount,4200); %morework  
 
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total scenes : ',num2str(length(folderNames))));
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total train images : ',num2str(trainImgCount)));
@@ -84,47 +84,64 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
             trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir);
             testfeatureVector = BuildPyramid(imgTest, mainDir, outDir);
         end        
+               
         rmpath('../SpatialPyramid');
-
+        
         trainLblVector=double(trainLblVector);
         trainfeatureVector=sparse(double(trainfeatureVector));
         testLblVector=double(testLblVector);
         testfeatureVector=sparse(double(testfeatureVector));
-
+                
         save(strcat('vars/',type,'trainLblVector.mat'),'trainLblVector');
         save(strcat('vars/',type,'testLblVector.mat'),'testLblVector');
         save(strcat('vars/',type,'testfeatureVector.mat'),'testfeatureVector');
         save(strcat('vars/',type,'trainfeatureVector.mat'),'trainfeatureVector');
         save(strcat('vars/',type,'sceneNameList.mat'),'sceneNameList');
     end
+    
+    addpath('../SpatialPyramid');
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating training kernel')); 
+    trainKernel = hist_isect(trainfeatureVector, trainfeatureVector);
+    trainKernel=sparse(trainKernel);
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating testing kernel'));  
+    testKernel = hist_isect(testfeatureVector,trainfeatureVector);
+    testKernel=sparse(testKernel);
+    save(strcat('vars/',testName,'trainKernel.mat'),'trainKernel');
+    save(strcat('vars/',testName,'testKernel.mat'),'testKernel');
+    rmpath('../SpatialPyramid');
         
     addpath('../liblinear/matlab');
-    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBLINEAR'));        
-    model = train(trainLblVector, trainfeatureVector);        
+    
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBLINEAR')); 
+    model = train(trainLblVector, trainKernel);  
+    %model = train(trainLblVector, trainfeatureVector); 
+    
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
-    [predictLblVector1, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
+    [predictLblVector1, accuracy, decision_values] = predict(testLblVector, testKernel, model);
+    %[predictLblVector1, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     rmpath('../liblinear/matlab');
     
     accuracy
     [ mat1, order1 ] = confusionMat(testLblVector, predictLblVector1);  
+    [ a1 ] = calcMeanAccuracy(15, testLblVector, predictLblVector1)
     
     save(strcat('vars/',testName,'_predictLblVector1.mat'),'predictLblVector1');
     save(strcat('vars/',testName,'_mat1.mat'),'mat1');
     save(strcat('vars/',testName,'_order1.mat'),'order1');
         
-    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
-    [predictLblVector2] = multiSVM(trainfeatureVector,trainLblVector,testfeatureVector,testName);
-    [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
+% % % %     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
+% % % %     [predictLblVector2] = multiSVM(trainfeatureVector,trainLblVector,testfeatureVector,testName);
+% % % %     [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
     
-    save(strcat('vars/',testName,'_predictLblVector2.mat'),'predictLblVector2');
-    save(strcat('vars/',testName,'_mat2.mat'),'mat2');
-    save(strcat('vars/',testName,'_order2.mat'),'order2');
+% % % %     save(strcat('vars/',testName,'_predictLblVector2.mat'),'predictLblVector2');
+% % % %     save(strcat('vars/',testName,'_mat2.mat'),'mat2');
+% % % %     save(strcat('vars/',testName,'_order2.mat'),'order2');
     
-    [ a1 ] = calcMeanAccuracy(15, testLblVector, predictLblVector1)
-    [ a2 ] = calcMeanAccuracy(15, testLblVector, predictLblVector2)    
+% % % %     [ a1 ] = calcMeanAccuracy(15, testLblVector, predictLblVector1)
+% % % %     [ a2 ] = calcMeanAccuracy(15, testLblVector, predictLblVector2)    
     
     save(strcat('vars/',testName,'_a1.mat'),'a1');
-    save(strcat('vars/',testName,'_a2.mat'),'a2');
+% % % %     save(strcat('vars/',testName,'_a2.mat'),'a2');
     
 %     addpath('../multiSVM');
 %     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
@@ -133,8 +150,8 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
 %     rmpath('../multiSVM');
  
 
-% predictLblVector2=1;
-% mat2=0;
-% order2=0;
+predictLblVector2=1;
+mat2=0;
+order2=0;
     %deleteData(mainDir);
 end

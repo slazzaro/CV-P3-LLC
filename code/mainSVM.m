@@ -1,5 +1,5 @@
 %function [ imgTrain, imgTest, trainLblVector, testLblVector] = main( mainDir ,imgCount)
-function [ testLblVector, predictLblVector, mat, order] = main( mainDir ,imgCount)
+function [ testLblVector, predictLblVector, mat, order] = mainSVM( mainDir ,imgCount)
 
 dirContents = dir(mainDir); % all dir contents
 subFolders=[dirContents(:).isdir]; % just subfolder
@@ -13,7 +13,7 @@ scenceCount=0;
 for i=1:length(folderNames)
     %each folder=new scene
     oneFolder=folderNames{i};
-    if strcmp(oneFolder ,'data') == 1
+    if strcmp(oneFolder ,'dataLLC_K2048') == 1
         continue;
     end
     
@@ -49,7 +49,7 @@ end
 
 imgTrain=cellstr(imgTrain);
 imgTest=cellstr(imgTest);
-sceneNameList=cellstr(sceneNameList, 1);
+sceneNameList=cellstr(sceneNameList);
 
 trainfeatureVector=zeros(trainImgCount,4200); %morework
 testfeatureVector=zeros(testImgCount,4200); %morework
@@ -58,39 +58,43 @@ display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total scenes : ',num2str(length(
 display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total train images : ',num2str(trainImgCount)));
 display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total test images : ',num2str(testImgCount)));
 
-outDir=strcat(mainDir,'/data');
+outDir=strcat(mainDir,'/dataLLC_K2048');
 mkdir(outDir);
 display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));
 addpath('../SpatialPyramid');
-trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir);
-testfeatureVector = BuildPyramid(imgTest, mainDir, outDir);
+trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir);
+%K = [ (1:trainImgCount)', hist_isect(trainfeatureVector, trainfeatureVector)];
+testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir);
+%K2 = [ (1:testImgCount)', hist_isect(testfeatureVector, testfeatureVector)];
 rmpath('../SpatialPyramid');
 
 addpath('../liblinear/matlab');
 display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model'));
 
-numTrainImages = sum(sceneTrainImageCounts(:));
-numTestImages = sum(sceneTestImageCounts(:));
-accuracyMatrix = zeros(numTestImages,scenceCount);
+accuracyMatrix = zeros(testImgCount,scenceCount);
 for i = 1:length(sceneTrainImageCounts)
     %first create model
-    trainLblVector = zeros(numTrainImages,1);
+    trainLblVector = zeros(trainImgCount,1);
     indent = 0;
     for j = 1:i
         indent = indent + sceneTrainImageCounts(i,1);
     end
     trainLblVector(indent:sceneTrainImageCounts(i,1), 1) = 1;
-    model = svmtrain(trainLblVector, trainfeatureVector);
+    addpath('../SpatialPyramid');
+    model = svmtrain(trainfeatureVector, trainLblVector, 'kernel_function', @hist_isect);
+    rmpath('../SpatialPyramid');
     
     %now create predictions
-    testLblVector = zeros(numTestImages,1);
+    testLblVector = zeros(testImgCount,1);
     indent = 0;
     for j = 1:i
         indent = indent + sceneTestImageCounts(i,1);
     end
     testLblVector(indent:sceneTestImageCounts(i,1), 1) = 1;
-    [predictLblVector, accuracy, decision_values] = svmpredict(testLblVector, testfeatureVector, model, '-b 1');
-    
+    %[predictLblVector, accuracy, decision_values] = svmpredict(testfeatureVector, testLblVector, model);
+    predictLblVector = svmclassify(model,testfeatureVector);
+    display(predictLblVector);
+    display('prediction finished');
     %finally update accuracies
     accuracyMatrix(:,i) = decision_values(:,1);
 end
