@@ -8,11 +8,11 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     end
 
     if(isSaved==1)        
-        load(strcat('vars/',type,'trainLblVector.mat'));
-        load(strcat('vars/',type,'testLblVector.mat'));
-        load(strcat('vars/',type,'testfeatureVector.mat'));
-        load(strcat('vars/',type,'trainfeatureVector.mat'));
-        load(strcat('vars/',type,'sceneNameList.mat'));
+        load(strcat('../vars/',type,'trainLblVector.mat'));
+        load(strcat('../vars/',type,'testLblVector.mat'));
+        load(strcat('../vars/',type,'testfeatureVector.mat'));
+        load(strcat('../vars/',type,'trainfeatureVector.mat'));
+        load(strcat('../vars/',type,'sceneNameList.mat'));
     else
         dirContents = dir(mainDir); % all dir contents
         subFolders=[dirContents(:).isdir]; % just subfolder
@@ -95,11 +95,11 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
         testLblVector=double(testLblVector);
         testfeatureVector=sparse(double(testfeatureVector));
                 
-        save(strcat('vars/',type,'trainLblVector.mat'),'trainLblVector');
-        save(strcat('vars/',type,'testLblVector.mat'),'testLblVector');
-        save(strcat('vars/',type,'testfeatureVector.mat'),'testfeatureVector');
-        save(strcat('vars/',type,'trainfeatureVector.mat'),'trainfeatureVector');
-        save(strcat('vars/',type,'sceneNameList.mat'),'sceneNameList');
+        save(strcat('../vars/',type,'trainLblVector.mat'),'trainLblVector');
+        save(strcat('../vars/',type,'testLblVector.mat'),'testLblVector');
+        save(strcat('../vars/',type,'testfeatureVector.mat'),'testfeatureVector');
+        save(strcat('../vars/',type,'trainfeatureVector.mat'),'trainfeatureVector');
+        save(strcat('../vars/',type,'sceneNameList.mat'),'sceneNameList');
     end
     
     addpath('../SpatialPyramid');
@@ -128,11 +128,11 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     [ mat1, order1 ] = confusionMat(testLblVector, predictLblVector1);  
     [ a1 ] = calcMeanAccuracy(15, testLblVector, predictLblVector1)
     
-    save(strcat('vars/',testName,'_predictLblVector1.mat'),'predictLblVector1');
-    save(strcat('vars/',testName,'_mat1.mat'),'mat1');
-    save(strcat('vars/',testName,'_order1.mat'),'order1');
+    save(strcat('../vars/',testName,'_predictLblVector1.mat'),'predictLblVector1');
+    save(strcat('../vars/',testName,'_mat1.mat'),'mat1');
+    save(strcat('../vars/',testName,'_order1.mat'),'order1');
     
-    save(strcat('vars/',testName,'_a1.mat'),'a1');
+    save(strcat('../vars/',testName,'_a1.mat'),'a1');
  
 
 predictLblVector2=1;
