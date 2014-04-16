@@ -131,26 +131,8 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     save(strcat('vars/',testName,'_predictLblVector1.mat'),'predictLblVector1');
     save(strcat('vars/',testName,'_mat1.mat'),'mat1');
     save(strcat('vars/',testName,'_order1.mat'),'order1');
-        
-% % % %     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
-% % % %     [predictLblVector2] = multiSVM(trainfeatureVector,trainLblVector,testfeatureVector,testName);
-% % % %     [ mat2, order2 ] = confusionMat(testLblVector, predictLblVector2);
-    
-% % % %     save(strcat('vars/',testName,'_predictLblVector2.mat'),'predictLblVector2');
-% % % %     save(strcat('vars/',testName,'_mat2.mat'),'mat2');
-% % % %     save(strcat('vars/',testName,'_order2.mat'),'order2');
-    
-% % % %     [ a1 ] = calcMeanAccuracy(15, testLblVector, predictLblVector1)
-% % % %     [ a2 ] = calcMeanAccuracy(15, testLblVector, predictLblVector2)    
     
     save(strcat('vars/',testName,'_a1.mat'),'a1');
-% % % %     save(strcat('vars/',testName,'_a2.mat'),'a2');
-    
-%     addpath('../multiSVM');
-%     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
-%     [res] = multisvm(trainfeatureVector,trainLblVector,testfeatureVector) 
-%     %predict(testLblVector, testfeatureVector, model);
-%     rmpath('../multiSVM');
  
 
 predictLblVector2=1;
