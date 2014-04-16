@@ -73,14 +73,17 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total train images : ',num2str(trainImgCount)));
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total test images : ',num2str(testImgCount)));
 
-        outDir=strcat(mainDir,'/data');
-        mkdir(outDir);
-        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));
         addpath('../SpatialPyramid');
-        if(useLLC==1)            
+        if(useLLC==1)  
+            outDir=strcat(mainDir,'/dataLLC');
+            mkdir(outDir);
+            display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));          
             trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir);
             testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir);
         else
+            outDir=strcat(mainDir,'/data');
+            mkdir(outDir);
+            display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));  
             trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir);
             testfeatureVector = BuildPyramid(imgTest, mainDir, outDir);
         end        
