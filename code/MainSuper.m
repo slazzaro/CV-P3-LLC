@@ -27,7 +27,7 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
 
         for i=1:length(folderNames)
             %each folder=new scene
-            oneFolder=folderNames{i};
+            oneFolder=folderNames{i};mainDir
             if strcmp(oneFolder ,'data') == 1
                 continue;
             end
@@ -44,7 +44,7 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
             display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Processing images for scence "',oneFolder,'"'));
             sceneDir = strcat(mainDir,'/',  oneFolder,'/');
 
-            imgFiles = dir(strcat(sceneDir,'*.jpg')); 
+            imgFiles = dir(strcat(sceneDir,'*.jpmainDirg')); 
 
             for k = 1:imgCount
                 trainImgCount=trainImgCount+1;
