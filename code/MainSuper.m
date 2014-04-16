@@ -1,7 +1,7 @@
-function [ output_args ] = MainSuper( input_args )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
+function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, ...
+                           isSaved, dictionarySize, pyramidLevels, ...
+                           numTextonImages, patchSize, gridSpacing)
+                       
 
 end
 
