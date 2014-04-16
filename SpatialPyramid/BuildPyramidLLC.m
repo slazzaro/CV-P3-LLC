@@ -44,9 +44,8 @@ if(~exist('params','var'))
     params.maxImageSize = 1000
     params.gridSpacing = 8
     params.patchSize = 16
-    %params.patchSize = 24
+    %params.dictionarySize = 2048
     params.dictionarySize = 1024
-    %params.numTextonImages = 200
     params.numTextonImages = 50
     params.pyramidLevels = 3
     params.oldSift = false;
