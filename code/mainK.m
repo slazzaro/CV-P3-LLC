@@ -109,8 +109,8 @@ function [ testLblVector, predictLblVector1, predictLblVector2, mat1, mat2, orde
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating testing kernel'));  
     testKernel = hist_isect(testfeatureVector,trainfeatureVector);
     testKernel=sparse(testKernel);
-    save(strcat('vars/',testName,'_trainKernel.mat'),'trainKernel');
-    save(strcat('vars/',testName,'_testKernel.mat'),'testKernel');
+    %save(strcat('vars/',testName,'_trainKernel.mat'),'trainKernel');
+    %save(strcat('vars/',testName,'_testKernel.mat'),'testKernel');
     rmpath('../SpatialPyramid');
         
     addpath('../liblinear/matlab');
