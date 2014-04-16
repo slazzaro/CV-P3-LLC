@@ -70,15 +70,18 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector,
    
     trainLblVector=double(trainLblVector);
     testLblVector=double(testLblVector);
-    
     model = train(trainLblVector, traink );    
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
     [predictLblVector, accuracy, decision_values] = predict(testLblVector, testk, model);
+    %predictLblVector = kNN(trainLblVector, trainfeatureVector, testLblVector, testfeatureVector, 10);
+    
+    
+    
 %     model = train(trainLblVector, trainfeatureVector );    
 %     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
 %     [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     rmpath('../liblinear/matlab');
-    display(accuracy);
+    %display(accuracy);
 
 %     addpath('../multiSVM');
 %     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    

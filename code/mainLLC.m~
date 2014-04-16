@@ -58,22 +58,36 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector,
     addpath('../SpatialPyramid');
     trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir);
     testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir);
+    trainfeatureVector=sparse(double(trainfeatureVector));
+    testfeatureVector=sparse(double(testfeatureVector));
+%     traink = hist_isect(trainfeatureVector, trainfeatureVector);
+%     testk = hist_isect(testfeatureVector, trainfeatureVector);
+%     traink=sparse(double(traink));
+%     testk=sparse(double(testk));
     rmpath('../SpatialPyramid');
-    
     addpath('../liblinear/matlab');
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model'));
    
     trainLblVector=double(trainLblVector);
-    trainfeatureVector=sparse(double(trainfeatureVector));
     testLblVector=double(testLblVector);
-    testfeatureVector=sparse(double(testfeatureVector));
+    display(trainLblVector
+%     model = train(trainLblVector, traink );    
+%     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
+%     [predictLblVector, accuracy, decision_values] = predict(testLblVector, testk, model);
+    predictLblVector = kNN(trainLblVector, trainfeatureVector, testLblVector, testfeatureVector, 10);
     
-    model = train(trainLblVector, trainfeatureVector );    
     
-    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
-    [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
+    
+%     model = train(trainLblVector, trainfeatureVector );    
+%     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
+%     [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     rmpath('../liblinear/matlab');
-    display(accuracy);
+    %display(accuracy);
+
+%     addpath('../multiSVM');
+%     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
+%     [predictLblVector] = multisvm(trainfeatureVector,trainLblVector,testfeatureVector); %predict(testLblVector, testfeatureVector, model);
+%     rmpath('../multiSVM');
     
     meanAccuracy = calcMeanAccuracy(sceneCount, testLblVector, predictLblVector);
     display(strcat('Mean accuracy:', num2str(meanAccuracy),'%'));
