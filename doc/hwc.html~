@@ -30,7 +30,7 @@
 			</font>
 			</h2>
 			<ol type="0">
-			  <li>Home</li>
+			  <li><a href="../index.html">Home<a></li>
 			  <li><a href="intro.html">Introduction<a></li>
 			    <li><a href="hcw.html">Hard Code Word</a></li>
 				  <ol type="i">
@@ -58,12 +58,25 @@
 			</ol>
 			</font>
 		</td>
-		<td align=right>
+		<td align=left>
 		<!-- ################################## -->
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
+			<font color ="ffffff">
+<h2> <center> Hard Code Word Assignment </center> </h2>	
 		
-
+We began our experiment by running the spatial pyramid method with hard code word
+assignment.  When we say hard code word assignment, we mean that after different
+clusters are generated using K-Means with our SIFT Descriptor features, each SIFT descriptor is
+assigned to 1 and only 1 cluster.  This is contrasted with soft code word assignment (e.g. LLC)
+where each SIFT descriptor contains a distribution of clusters it is assigned to where the values
+assigned to each cluster is based on the descriptor's distance to the relevant cluster.  Using the
+hard codeword assignment, we first found results which were not too good where our accuracy
+of prediction was in the 45% range.  However, we discovered that this low accuracy was due
+to the fact that we were not using any type of kernel function on our training and testing data.
+Therefore, after we experimented using a histogram intersection kernel function, we saw
+our prediction accuracy sharply rise up to 75%.  Confusion matrices with and without
+the histogram intersection kernel are shown below.
 
 
 

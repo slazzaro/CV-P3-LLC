@@ -30,7 +30,7 @@
 			</font>
 			</h2>
 			<ol type="0">
-			  <li>Home</li>
+			  <li><a href="../index.html">Home<a></li>
 			  <li><a href="intro.html">Introduction<a></li>
 			    <li><a href="hcw.html">Hard Code Word</a></li>
 				  <ol type="i">
@@ -62,9 +62,16 @@
 		<!-- ################################## -->
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
-		
+			<font color ="ffffff">
+<h2> <center> Other Datasets </center> </h2>	
 
-
+We experimented with 2 other datasets for recognizing birds and butterflies that
+we retrieved from the <a href = "http://www-cvr.ai.uiuc.edu/ponce_grp/data/"> Ponce Research Group </a>.
+One of these datasets consisted of 6 different types of birds, and the other dataset consisted
+of 7 different types of butterflies.  We originally believed that we would retrieve extremely 
+bad accuracies for these datasets as differences between
+different birds and butterflies would be much more subtle than differences in scenes.  However,
+our results ended up being much better than expected giving accuracies up to 65% for each of those.
 
 
 

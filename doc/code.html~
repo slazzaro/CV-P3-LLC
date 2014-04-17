@@ -30,7 +30,7 @@
 			</font>
 			</h2>
 			<ol type="0">
-			  <li>Home</li>
+			  <li><a href="../index.html">Home<a></li>
 			  <li><a href="intro.html">Introduction<a></li>
 			    <li><a href="hcw.html">Hard Code Word</a></li>
 				  <ol type="i">
@@ -58,13 +58,50 @@
 			</ol>
 			</font>
 		</td>
-		<td align=right>
+		<td align=left>
 		<!-- ################################## -->
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
+		<font color ="ffffff">
+<h2> <center> Running the Code </center> </h2>
 		
 
+		The software implementation was done in Matlab.<br>
+The code package can be downloaded from <a href="../src">here</a>.<br></br>
 
+<b><u>Standard Scene classification:</u></b></br></br>
+
+This functionality is implemented in the <a href="../code/">code folder</a>.</br></br>
+Syntax:</br>
+<b><i>MainSuper( mainDir , imgCount, testName, useLLC, useKer, delOld,
+dictionarySize, pyramidLevls, numTextonImages, patchSize, gridSpacing, k );</i></b> </br></br>
+where:</br>
+<b>mainDir</b>: Name of the directory containing the images which will be classified</br>
+<b>imgCount</b>: The number of images for each scene to be used in training</br>
+<b>testName</b>: Name of the output files</br>
+<b>useLLC</b>: 0 for non-LLC, 1 to use LLC</br>
+<b>useKer</b>: 0 without kernel, 1 is with kernel</br>
+<b>delOld</b>: 0 to keep the .mat files generated from BuildPyramid, 1 to delete those files</br>
+<b>dictionarySize</b>: The size of the dictionary used in BuildPyramid, standard is 1024</br>
+<b>pyramidLevels</b>: Number of levels for spatial pyramid</br>
+<b>numTextonImages</b>: Number of texton images used to create histograms</br>
+<b>patchSize</b>: the size of each patch for the sift descriptor</br>
+<b>gridSpacing</b>: the space between dense sift samples</br>
+<b>k</b>: The number of nearest neighbors to use for LLC</br>
+
+Output in the form of matrices (confusion matrix, accuracy, mean accuracy, etc.)
+will be generated in a folder named vars one level up from mainDir.  The start
+of the names for these files will be given by the testName parameter entered:<br><br>
+<br></br><br><br>
+
+
+<b><u>Multi level classification:</u></b></br></br>
+
+This functionality is implemented in the <a href="../code/">code folder</a>.</br></br>
+Syntax:</br>
+<b><i>MainTree( mainDir , imgCount, testName, useLLC, useKer, delOld,
+dictionarySize, pyramidLevls, numTextonImages, patchSize, gridSpacing, k );</i></b> </br></br>
+where the parameters and output are the same as above.
 
 
 
