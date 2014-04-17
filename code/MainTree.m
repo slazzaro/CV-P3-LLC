@@ -185,6 +185,16 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
         end
     end
     
+    c1trainLblVector=double(c1trainLblVector);
+    c1trainfeatureVector=double(c1trainfeatureVector);
+    c1testLblVector=double(c1testLblVector);
+    c1testfeatureVector=double(c2testfeatureVector);
+    c2trainLblVector=double(c2trainLblVector);
+    c2trainfeatureVector=double(c2trainfeatureVector);
+    c2testLblVector=double(c2testLblVector);
+    c2testfeatureVector=double(c2testfeatureVector);
+    
+    
     if (useKer==1)
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating training kernel')); 
         trainKernel = hist_isect(trainfeatureVector, trainfeatureVector);
