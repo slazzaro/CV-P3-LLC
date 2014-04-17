@@ -77,8 +77,8 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
         outDir=strcat(mainDir,'/data');
         mkdir(outDir);
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));  
-        trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir, params);
-        testfeatureVector = BuildPyramid(imgTest, mainDir, outDir, params);
+        trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir, k, params);
+        testfeatureVector = BuildPyramid(imgTest, mainDir, outDir, k, params);
     end        
 
     trainLblVector=double(trainLblVector);
