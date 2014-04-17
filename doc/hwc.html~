@@ -40,7 +40,7 @@
 				  <ol type="i">
 				    <li><a href="llc_res.html">Results</a></li>
 				  </ol>
-			    <li><a href="gid.html">Grid Search</a></li>
+			    <li><a href="grid.html">Grid Search</a></li>
 			    <li><a href="shc.html">Sequential Hierarchy Classifier</a></li>
 			    <li><a href="otherData.html">Other Dataset Evaluation</a></li>
 				  <ol type="i">
