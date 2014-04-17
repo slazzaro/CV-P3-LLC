@@ -8,7 +8,7 @@ options = zeros(1,14);
 options(1) = 1; % display
 options(2) = 1;
 options(3) = 0.1; % precision
-options(5) = 5; % initialization
+options(5) = 0; % initialization
 options(14) = 1000; % maximum iterations
 numClusters = 2;
 centers = zeros(numClusters, size(trainfeatureVector,2));
@@ -30,6 +30,12 @@ totalCorrect = 0;
 for i=1:length(folderNames)
     %each folder=new scene
     oneFolder=folderNames{i};
+    if strcmp(oneFolder ,'dataTREE') == 1
+        continue;
+    end
+    if strcmp(oneFolder ,'dataLLCTREE') == 1
+        continue;
+    end
     if strcmp(oneFolder ,'data') == 1
         continue;
     end

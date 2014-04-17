@@ -25,6 +25,12 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
         if strcmp(oneFolder ,'dataLLCTREE') == 1
             continue;
         end
+        if strcmp(oneFolder ,'data') == 1
+            continue;
+        end
+        if strcmp(oneFolder ,'dataLLC') == 1
+            continue;
+        end
 
         localTrainCount=0;
         localTestCount=0;
@@ -86,8 +92,11 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
         testfeatureVector = BuildPyramid(imgTest, mainDir, outDir, params);
     end        
     
-    [class1, class2] = findClusterAssignments( trainfeatureVector, folderNames, imgCount, mainDir );
-
+    %[class1, class2] = findClusterAssignments( trainfeatureVector, folderNames, imgCount, mainDir )
+    class1 = [2 4 6 7];
+    class2 = [1 3 5 8 9 10 11 12 13 14 15];
+    
+    
 %     levelOneBag=zeros(scenceCount);
     for i=1:length(class1)
         n=class1(1,i);
