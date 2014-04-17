@@ -245,7 +245,7 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
         [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testfeatureVector, c1model, 's','4');   
         
         c2model = train(c2trainLblVector, c2trainfeatureVector, 's','4'); 
-        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C2 on LIBLINEAR'));    
         [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testfeatureVector, c2model, 's','4');  
     end
     rmpath('../liblinear/matlab');
