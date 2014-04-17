@@ -137,38 +137,23 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     rmpath('../liblinear/matlab');
     
     [ l1confMat, l1order ] = confusionMat(l1testLblVector, l1predictLblVector);  
-    l1meanAcc = calcMeanAccuracy(2, l1testLblVector, l1predictLblVector);
+    l1meanAcc = calcMeanAccuracy(15, testLblVector, predictLblVector);
     
     %save(strcat('../vars/',testName,'_predictLblVector.mat'),'predictLblVector');
-    save(strcat('../vars/',testName,'_l1confMat.mat'),'l1confMat');
-    save(strcat('../vars/',testName,'_l1order.mat'),'l1order');    
-    save(strcat('../vars/',testName,'_l1accuracy.mat'),'l1accuracy');  
-    save(strcat('../vars/',testName,'_l1meanAcc.mat'),'l1meanAcc');
-    save(strcat('../vars/',testName,'_l1sceneNameList.mat'),'l1sceneNameList');
+    save(strcat('../vars/',testName,'_confMat.mat'),'confMat');
+    save(strcat('../vars/',testName,'_order.mat'),'order');    
+    save(strcat('../vars/',testName,'_accuracy.mat'),'accuracy');  
+    save(strcat('../vars/',testName,'_meanAcc.mat'),'meanAcc');
+    save(strcat('../vars/',testName,'_sceneNameList.mat'),'sceneNameList');
  
     if (delOld==1)
         deleteData(outDir);
     end  
     
-    %class1 & class2 sub-classification
-    c1
-        trainLblVector=double(trainLblVector);
-    trainfeatureVector=sparse(double(trainfeatureVector));
-    testLblVector=double(testLblVector);
-    testfeatureVector=sparse(double(testfeatureVector));
     
-    c1Count=0;
-    c2Count=0;
     
-    for i=1:length(trainLblVector)
-        if(l1trainLblVector(i)==1)
-            c1Count=c1Count+1;
-            c1trainLblVector(c1Count)=trainLblVector(i);
-        else
-            c2Count=c2Count+1;
-            c2trainLblVector(c2Count)=trainLblVector(i);            
-        end
-    end
+    
+    
     
     
     
