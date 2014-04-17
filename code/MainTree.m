@@ -19,10 +19,10 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     for i=1:length(folderNames)
         %each folder=new scene
         oneFolder=folderNames{i};
-        if strcmp(oneFolder ,'data') == 1
+        if strcmp(oneFolder ,'dataTREE') == 1
             continue;
         end
-        if strcmp(oneFolder ,'dataLLC') == 1
+        if strcmp(oneFolder ,'dataLLCTREE') == 1
             continue;
         end
 
@@ -57,16 +57,7 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     imgTrain=cellstr(imgTrain);
     imgTest=cellstr(imgTest);
     sceneNameList=cellstr(sceneNameList);   
-    
-%     levelOneBag=zeros(scenceCount);
-    for i=1:length(class1)
-        n=class1(1,i);
-        levelOneBag(n)=1;
-    end
-    for i=1:length(class2)
-        n=class2(1,i);
-        levelOneBag(n)=2;
-    end    
+       
 
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total scenes : ',num2str(length(folderNames))));
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Total train images : ',num2str(trainImgCount)));
@@ -77,24 +68,36 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     params.patchSize = patchSize;
     params.dictionarySize = dictionarySize;
     params.numTextonImages = numTextonImages;
-    params.pyramidLevels = pyramidLevels;
+    params.pyramidLevels = pyramidLevels;folderNames
     %params.oldSift = false;
     
     addpath('../SpatialPyramid');
     if(useLLC==1)  
-        outDir=strcat(mainDir,'/dataLLC');
+        outDir=strcat(mainDir,'/dataLLCTREE');
         mkdir(outDir);
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));          
         trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir, k, params);
         testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir, k, params);
     else
-        outDir=strcat(mainDir,'/data');
+        outDir=strcat(mainDir,'/dataTREE');
         mkdir(outDir);
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));  
         trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir, params);
         testfeatureVector = BuildPyramid(imgTest, mainDir, outDir, params);
     end        
+    
+    [class1, class2] = findClusterAssignments( trainfeatureVector, folderNames, imgCount, mainDir );
 
+%     levelOneBag=zeros(scenceCount);
+    for i=1:length(class1)
+        n=class1(1,i);
+        levelOneBag(n)=1;
+    end
+    for i=1:length(class2)
+        n=class2(1,i);
+        levelOneBag(n)=2;
+    end 
+    
     trainLblVector=double(trainLblVector);
     trainfeatureVector=sparse(double(trainfeatureVector));
     testLblVector=double(testLblVector);
@@ -126,13 +129,13 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     addpath('../liblinear/matlab');    
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBLINEAR')); 
     if (useKer==1)
-        l1model = train(l1trainLblVector, l1trainKernel);  
+        l1model = train(l1trainLblVector, l1trainKernel, 's','4');  
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
-        [l1predictLblVector, l1accuracy, l1decision_values] = predict(l1testLblVector, l1testKernel, l1model);        
+        [l1predictLblVector, l1accuracy, l1decision_values] = predict(l1testLblVector, l1testKernel, l1model, 's','4');        
     else
-        l1model = train(l1trainLblVector, trainfeatureVector); 
+        l1model = train(l1trainLblVector, trainfeatureVector, 's','4'); 
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
-        [l1predictLblVector, l1accuracy, l1decision_values] = predict(l1testLblVector, testfeatureVector, l1model);        
+        [l1predictLblVector, l1accuracy, l1decision_values] = predict(l1testLblVector, testfeatureVector, l1model, 's','4');        
     end
     rmpath('../liblinear/matlab');
     
