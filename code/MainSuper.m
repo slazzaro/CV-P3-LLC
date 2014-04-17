@@ -6,7 +6,7 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
     
     dirContents = dir(mainDir); % all dir contents
     subFolders=[dirContents(:).isdir]; % just subfolder
-    folderNames = {dirContents(subFolders).nagridSpacingme};    %subfolder names
+    folderNames = {dirContents(subFolders).name};    %subfolder names
     folderNames(ismember(folderNames,{'.','..'})) = []; %remove . & ..
     trainImgCount=0;
     testImgCount=0;
@@ -14,7 +14,7 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
 
     for i=1:length(folderNames)
         %each folder=new scene
-        oneFolder=folderNames{i};mainDir
+        oneFolder=folderNames{i};
         if strcmp(oneFolder ,'data') == 1
             continue;
         end
