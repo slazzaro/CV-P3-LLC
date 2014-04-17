@@ -65,20 +65,20 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
     params.numTextonImages = numTextonImages;
     params.pyramidLevels = pyramidLevels;
     %params.oldSift = false;
-    meanAcc
+    
     addpath('../SpatialPyramid');
     if(useLLC==1)  
         outDir=strcat(mainDir,'/dataLLC');
         mkdir(outDir);
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));          
-        trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir, params);
-        testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir, params);
+        trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir, k, params);
+        testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir, k, params);
     else
         outDir=strcat(mainDir,'/data');
         mkdir(outDir);
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));  
-        trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir, k, params);
-        testfeatureVector = BuildPyramid(imgTest, mainDir, outDir, k, params);
+        trainfeatureVector = BuildPyramid(imgTrain, mainDir, outDir, params);
+        testfeatureVector = BuildPyramid(imgTest, mainDir, outDir, params);
     end        
 
     trainLblVector=double(trainLblVector);
