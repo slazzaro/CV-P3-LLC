@@ -149,36 +149,119 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     if (delOld==1)
         deleteData(outDir);
     end  
-% % % % % % %     
-% % % % % % %     %class1 & class2 sub-classification
-% % % % % % %     c1
-% % % % % % %         trainLblVector=double(trainLblVector);
-% % % % % % %     trainfeatureVector=sparse(double(trainfeatureVector));
-% % % % % % %     testLblVector=double(testLblVector);
-% % % % % % %     testfeatureVector=sparse(double(testfeatureVector));
-% % % % % % %     
-% % % % % % %     c1Count=0;
-% % % % % % %     c2Count=0;
-% % % % % % %     
-% % % % % % %     for i=1:length(trainLblVector)
-% % % % % % %         if(l1trainLblVector(i)==1)
-% % % % % % %             c1Count=c1Count+1;
-% % % % % % %             c1trainLblVector(c1Count)=trainLblVector(i);
-% % % % % % %         else
-% % % % % % %             c2Count=c2Count+1;
-% % % % % % %             c2trainLblVector(c2Count)=trainLblVector(i);            
-% % % % % % %         end
-% % % % % % %     end
-% % % % % % %     
-% % % % % % %     for i=1:length(testLblVector)
-% % % % % % %         if(l1testLblVectorr(i)==1)
-% % % % % % %             c1Count=c1Count+1;
-% % % % % % %             c1testLblVector(c1Count)=testLblVector(i);
-% % % % % % %         else
-% % % % % % %             c2Count=c2Count+1;
-% % % % % % %             c2testLblVector(c2Count)=testLblVector(i);            
-% % % % % % %         end
-% % % % % % %     end
+    
+    %class1 & class2 sub-classification
+% % %     c1
+% % %     trainLblVector=double(trainLblVector);
+% % %     trainfeatureVector=sparse(double(trainfeatureVector));
+% % %     testLblVector=double(testLblVector);
+% % %     testfeatureVector=sparse(double(testfeatureVector));
+    
+    c1Count=0;
+    c2Count=0;    
+    for i=1:length(trainLblVector)
+        if(l1trainLblVector(i)==1)
+            c1Count=c1Count+1;
+            c1trainLblVector(c1Count,1)=trainLblVector(i);
+            c1trainfeatureVector(c1Count,:)=trainfeatureVector(i,:);
+        else
+            c2Count=c2Count+1;
+            c2trainLblVector(c2Count,1)=trainLblVector(i);    
+            c2trainfeatureVector(c2Count,:)=trainfeatureVector(i,:);         
+        end
+    end
+    
+    c1Count=0;
+    c2Count=0;
+    for i=1:length(l1predictLblVector)
+        if(l1predictLblVector(i)==1)
+            c1Count=c1Count+1;
+            c1testLblVector(c1Count,1)=testLblVector(i);
+            c1testfeatureVector(c1Count,:)=testfeatureVector(i,:);
+        else
+            c2Count=c2Count+1;
+            c2testLblVector(c2Count,1)=testLblVector(i); 
+            c2testfeatureVector(c2Count,:)=testfeatureVector(i,:);            
+        end
+    end
+    
+    c1trainLblVector=double(c1trainLblVector);
+    c1trainfeatureVector=double(c1trainfeatureVector);
+    c1testLblVector=double(c1testLblVector);
+    c1testfeatureVector=double(c2testfeatureVector);
+    c2trainLblVector=double(c2trainLblVector);
+    c2trainfeatureVector=double(c2trainfeatureVector);
+    c2testLblVector=double(c2testLblVector);
+    c2testfeatureVector=double(c2testfeatureVector);
+    
+    %c1 sub classification
+    
+    addpath('../SpatialPyramid');
+    if (useKer==1)
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating C1 training kernel')); 
+        c1trainKernel = hist_isect(c1trainfeatureVector, c1trainfeatureVector);
+        c1trainKernel=sparse(c1trainKernel);
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating C1 testing kernel'));  
+        c1testKernel = hist_isect(c1testfeatureVector,c1trainfeatureVector);
+        c1testKernel=sparse(c1testKernel);       
+        
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating C2 training kernel')); 
+        c2trainKernel = hist_isect(c2trainfeatureVector, c2trainfeatureVector);
+        c2trainKernel=sparse(c2trainKernel);
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating C2 testing kernel'));  
+        c2testKernel = hist_isect(c2testfeatureVector,c2trainfeatureVector);
+        c2testKernel=sparse(c2testKernel);  
+    end   
+    rmpath('../SpatialPyramid');
+                       
+    addpath('../liblinear/matlab');    
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training C model on LIBLINEAR')); 
+    if (useKer==1)
+        c1model = train(c1trainLblVector, c1trainKernel);  
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
+        [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testKernel, c1model);   
+        
+        c2model = train(c2trainLblVector, c2trainKernel);  
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C2 on LIBLINEAR'));    
+        [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testKernel, c2model); 
+    else
+        c1model = train(c1trainLblVector, c1trainfeatureVector); 
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
+        [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testfeatureVector, c1model);   
+        
+        c2model = train(c2trainLblVector, c2trainfeatureVector); 
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
+        [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testfeatureVector, c2model);  
+    end
+    rmpath('../liblinear/matlab');
+    
+    nCount=0;
+    for i=1:length(c1predictLblVector)
+        nCount=nCount+1;
+        actualLbl(nCount)=c1testLblVector(i);
+        predictLbl(nCount)=c1predictLblVector(i);
+    end
+    
+    for i=1:length(c2predictLblVector)
+        nCount=nCount+1;
+        actualLbl(nCount)=c2testLblVector(i);
+        predictLbl(nCount)=c2predictLblVector(i);        
+    end
+    
+    
+    [ finalConfMat, finalOrder ] = confusionMat(actualLbl, predictLbl);  
+    finalMeanAcc = calcMeanAccuracy(15, actualLbl, predictLbl);
+    
+    %save(strcat('../vars/',testName,'_predictLblVector.mat'),'predictLblVector');
+    save(strcat('../vars/',testName,'_finalConfMat.mat'),'finalConfMat');
+    save(strcat('../vars/',testName,'_finalOrder.mat'),'finalOrder');    
+    save(strcat('../vars/',testName,'_c1accuracy.mat'),'c1accuracy');    
+    save(strcat('../vars/',testName,'_c2accuracy.mat'),'c2accuracy');  
+    save(strcat('../vars/',testName,'_finalMeanAcc.mat'),'finalMeanAcc');
+    save(strcat('../vars/',testName,'_sceneNameList.mat'),'sceneNameList');
+    
+    
+    
 % % % % % % %     
 % % % % % % %     
 % % % % % % %     
