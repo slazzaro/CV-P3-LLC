@@ -99,13 +99,13 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
     addpath('../liblinear/matlab');    
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBLINEAR')); 
     if (useKer==1)
-        model = train(trainLblVector, trainKernel);  
+        model = train(trainLblVector, trainKernel, 's','4');  
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
-        [predictLblVector, accuracy, decision_values] = predict(testLblVector, testKernel, model);        
+        [predictLblVector, accuracy, decision_values] = predict(testLblVector, testKernel, model, 's','4');        
     else
-        model = train(trainLblVector, trainfeatureVector); 
+        model = train(trainLblVector, trainfeatureVector, 's','4'); 
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
-        [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);        
+        [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model, 's','4');        
     end
     rmpath('../liblinear/matlab');
     

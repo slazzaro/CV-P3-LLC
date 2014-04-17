@@ -220,21 +220,21 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     addpath('../liblinear/matlab');    
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training C model on LIBLINEAR')); 
     if (useKer==1)
-        c1model = train(c1trainLblVector, c1trainKernel);  
+        c1model = train(c1trainLblVector, c1trainKernel, 's','4');  
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
-        [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testKernel, c1model);   
+        [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testKernel, c1model, 's','4');   
         
-        c2model = train(c2trainLblVector, c2trainKernel);  
+        c2model = train(c2trainLblVector, c2trainKernel, 's','4');  
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C2 on LIBLINEAR'));    
-        [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testKernel, c2model); 
+        [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testKernel, c2model, 's','4'); 
     else
-        c1model = train(c1trainLblVector, c1trainfeatureVector); 
+        c1model = train(c1trainLblVector, c1trainfeatureVector, 's','4'); 
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
-        [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testfeatureVector, c1model);   
+        [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testfeatureVector, c1model, 's','4');   
         
-        c2model = train(c2trainLblVector, c2trainfeatureVector); 
+        c2model = train(c2trainLblVector, c2trainfeatureVector, 's','4'); 
         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
-        [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testfeatureVector, c2model);  
+        [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testfeatureVector, c2model, 's','4');  
     end
     rmpath('../liblinear/matlab');
     
@@ -262,6 +262,7 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     save(strcat('../vars/',testName,'_c2accuracy.mat'),'c2accuracy');  
     save(strcat('../vars/',testName,'_finalMeanAcc.mat'),'finalMeanAcc');
     save(strcat('../vars/',testName,'_sceneNameList.mat'),'sceneNameList');
+    
     
     
                        
