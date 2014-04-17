@@ -89,20 +89,24 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector,
 
     %neural net
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Feeding Forward net'));
-    net = feedforwardnet(2,'trainrp');
+    net = feedforwardnet(5,'trainrp');
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Configuring net'));
-    net = configure(net,trainfeatureVector, trainLblVector);
+    net = configure(net,trainfeatureVector', trainLblVector');
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training net'));
     %net.efficiency.memoryReduction = 1000000000;
+    %net = fitnet(200, 'trainrp');
     net.trainFcn = 'trainrp';
-    net = train(net,trainfeatureVector);
+    net = train(net,trainfeatureVector', trainLblVector');
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predicting labels net'));
-    [predictLblVector,Xf,Af] = sim(net, testfeatureVector);
+    [predictLblVector,Xf,Af] = sim(net, testfeatureVector');
+    %[predictLblVector,Xf,Af] = net(testfeatureVector);
+    
+    display(predictLblVector);
     
     rmpath('../liblinear/matlab');
     
-    meanAccuracy = calcMeanAccuracy(sceneCount, testLblVector, predictLblVector);
+    meanAccuracy = calcMeanAccuracy(sceneCount, testLblVector, predictLblVector');
     display(strcat('Mean accuracy:', num2str(meanAccuracy),'%'));
     
-    [ mat, order ] = confusionMat(testLblVector, predictLblVector)
+    %[ mat, order ] = confusionMat(testLblVector, predictLblVector)
 end
