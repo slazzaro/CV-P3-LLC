@@ -2,7 +2,7 @@ function [ meanAccuracy ] = calcMeanAccuracy(numScenes, testLblVector, predicted
 % Returns meanAccuracy in percentage form
 %   Detailed explanation goes here
 
-display(numScenes);
+%display(numScenes);
 %first row will be actual number of test label, and second will be
 %correct num of predictions
 meanAccuracies = zeros(2, numScenes);
