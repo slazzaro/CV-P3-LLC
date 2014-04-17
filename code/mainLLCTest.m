@@ -1,4 +1,4 @@
-function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector, mat, order] = mainLLC( mainDir ,imgCount)
+function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector, mat, order] = mainLLCTest( mainDir ,imgCount)
 
     dirContents = dir(mainDir); % all dir contents
     subFolders=[dirContents(:).isdir]; % just subfolder
@@ -56,27 +56,39 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector,
     mkdir(outDir);
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Data directory created at : ',outDir));
     addpath('../SpatialPyramid');
-    trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir, 5);
-    testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir, 5);
+    trainfeatureVector = BuildPyramidLLC(imgTrain, mainDir, outDir);
+    testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir);
     trainfeatureVector=sparse(double(trainfeatureVector));
     testfeatureVector=sparse(double(testfeatureVector));
-    display('creating train kernel');
-    traink = hist_isect(trainfeatureVector, trainfeatureVector);
-    display('creating test kernel');
-    testk = hist_isect(testfeatureVector, trainfeatureVector);
-    traink=sparse(double(traink));
-    testk=sparse(double(testk));
+%     display('creating train kernel');
+%     traink = hist_isect(trainfeatureVector, trainfeatureVector);
+%     display('creating test kernel');
+%     testk = hist_isect(testfeatureVector, trainfeatureVector);
+%     traink=sparse(double(traink));
+%     testk=sparse(double(testk));
     rmpath('../SpatialPyramid');
     addpath('../liblinear/matlab');
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model'));
    
     trainLblVector=double(trainLblVector);
     testLblVector=double(testLblVector);
-    model = train(trainLblVector, traink );    
+    model = train(trainLblVector, trainfeatureVector );    
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
-    [predictLblVector, accuracy, decision_values] = predict(testLblVector, testk, model); 
+    [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
+    %predictLblVector = kNN(trainLblVector, trainfeatureVector, testLblVector, testfeatureVector, 10);
     
+    
+    
+%     model = train(trainLblVector, trainfeatureVector );    
+%     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
+%     [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     rmpath('../liblinear/matlab');
+    %display(accuracy);
+
+%     addpath('../multiSVM');
+%     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on multiSVM'));    
+%     [predictLblVector] = multisvm(trainfeatureVector,trainLblVector,testfeatureVector); %predict(testLblVector, testfeatureVector, model);
+%     rmpath('../multiSVM');
     
     meanAccuracy = calcMeanAccuracy(sceneCount, testLblVector, predictLblVector);
     display(strcat('Mean accuracy:', num2str(meanAccuracy),'%'));
