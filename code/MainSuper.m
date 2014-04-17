@@ -65,7 +65,7 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
     params.numTextonImages = numTextonImages;
     params.pyramidLevels = pyramidLevels;
     %params.oldSift = false;
-    
+    meanAcc
     addpath('../SpatialPyramid');
     if(useLLC==1)  
         outDir=strcat(mainDir,'/dataLLC');
@@ -112,11 +112,12 @@ function [  ] = MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
     [ confMat, order ] = confusionMat(testLblVector, predictLblVector);  
     meanAcc = calcMeanAccuracy(15, testLblVector, predictLblVector);
     
-    save(strcat('../vars/',testName,'_predictLblVector.mat'),'predictLblVector');
+    %save(strcat('../vars/',testName,'_predictLblVector.mat'),'predictLblVector');
     save(strcat('../vars/',testName,'_confMat.mat'),'confMat');
     save(strcat('../vars/',testName,'_order.mat'),'order');    
     save(strcat('../vars/',testName,'_accuracy.mat'),'accuracy');  
     save(strcat('../vars/',testName,'_meanAcc.mat'),'meanAcc');
+    save(strcat('../vars/',testName,'_sceneNameList.mat'),'sceneNameList');
  
     if (delOld==1)
         deleteData(outDir);
