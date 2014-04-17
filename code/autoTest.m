@@ -1,11 +1,11 @@
 function [  ] = autoTest( mainDir ,imgCount )
 for pyramidLevels = [3 5]
     for k = [ 5]
-        for numTextonImages = [100]
-            for patchSize =[16 32 8]
-                for gridSpacing =[8 16 4]
-                    for dictionarySize = [2048 1024 512]
-                        for isKer = [0 1]  %dont modify
+        for numTextonImages = [50 100]
+            for isKer = [1 0]  %dont modify
+                for patchSize =[16 32 8]
+                    for gridSpacing =[8 16 4]
+                        for dictionarySize = [2048 1024]
                             
                             %                     MainSuper( mainDir ,imgCount, testName, useLLC, useKer, ...
                             %                            delOld, dictionarySize, pyramidLevels, ...
