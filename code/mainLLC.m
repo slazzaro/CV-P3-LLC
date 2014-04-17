@@ -60,21 +60,44 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector,
     testfeatureVector = BuildPyramidLLC(imgTest, mainDir, outDir, 5);
     trainfeatureVector=sparse(double(trainfeatureVector));
     testfeatureVector=sparse(double(testfeatureVector));
-    display('creating train kernel');
-    traink = hist_isect(trainfeatureVector, trainfeatureVector);
-    display('creating test kernel');
-    testk = hist_isect(testfeatureVector, trainfeatureVector);
-    traink=sparse(double(traink));
-    testk=sparse(double(testk));
+%     display('creating train kernel');
+%     traink = hist_isect(trainfeatureVector, trainfeatureVector);
+%     display('creating test kernel');
+%     testk = hist_isect(testfeatureVector, trainfeatureVector);
+%     traink=sparse(double(traink));
+%     testk=sparse(double(testk));
     rmpath('../SpatialPyramid');
     addpath('../liblinear/matlab');
     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model'));
    
     trainLblVector=double(trainLblVector);
     testLblVector=double(testLblVector);
-    model = train(trainLblVector, traink );    
-    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
-    [predictLblVector, accuracy, decision_values] = predict(testLblVector, testk, model); 
+    
+    %[cluster1, cluster2] = findClusterAssignments(trainfeatureVector, folderNames, imgCount, mainDir);
+    %display(cluster1);
+    %display(cluster2);
+    
+    
+    
+    %svm
+%     model = train(trainLblVector, trainfeatureVector );    
+%     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict'));    
+%     [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
+    
+    %knn
+%     predictLblVector = kNN(trainLblVector, trainfeatureVector, testLblVector, testfeatureVector, 50);
+
+    %neural net
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Feeding Forward net'));
+    net = feedforwardnet(2,'trainrp');
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Configuring net'));
+    net = configure(net,trainfeatureVector, trainLblVector);
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training net'));
+    %net.efficiency.memoryReduction = 1000000000;
+    net.trainFcn = 'trainrp';
+    net = train(net,trainfeatureVector);
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predicting labels net'));
+    [predictLblVector,Xf,Af] = sim(net, testfeatureVector);
     
     rmpath('../liblinear/matlab');
     
