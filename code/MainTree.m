@@ -188,7 +188,7 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     c1trainLblVector=double(c1trainLblVector);
     c1trainfeatureVector=double(c1trainfeatureVector);
     c1testLblVector=double(c1testLblVector);
-    c1testfeatureVector=double(c2testfeatureVector);
+    c1testfeatureVector=double(c2testfeatureVector); %5%%%
     c2trainLblVector=double(c2trainLblVector);
     c2trainfeatureVector=double(c2trainfeatureVector);
     c2testLblVector=double(c2testLblVector);
@@ -261,47 +261,6 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     save(strcat('../vars/',testName,'_sceneNameList.mat'),'sceneNameList');
     
     
-    
-% % % % % % %     
-% % % % % % %     
-% % % % % % %     
-% % % % % % %     if (useKer==1)
-% % % % % % %         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating training kernel')); 
-% % % % % % %         trainKernel = hist_isect(trainfeatureVector, trainfeatureVector);
-% % % % % % %         trainKernel=sparse(trainKernel);
-% % % % % % %         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating testing kernel'));  
-% % % % % % %         testKernel = hist_isect(testfeatureVector,trainfeatureVector);
-% % % % % % %         testKernel=sparse(testKernel);       
-% % % % % % %     end   
-% % % % % % %     rmpath('../SpatialPyramid');
-% % % % % % %                        
-% % % % % % %     addpath('../liblinear/matlab');    
-% % % % % % %     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training model on LIBLINEAR')); 
-% % % % % % %     if (useKer==1)
-% % % % % % %         model = train(trainLblVector, trainKernel);  
-% % % % % % %         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
-% % % % % % %         [predictLblVector, accuracy, decision_values] = predict(testLblVector, testKernel, model);        
-% % % % % % %     else
-% % % % % % %         model = train(trainLblVector, trainfeatureVector); 
-% % % % % % %         display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict on LIBLINEAR'));    
-% % % % % % %         [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);        
-% % % % % % %     end
-% % % % % % %     rmpath('../liblinear/matlab');
-% % % % % % %     
-% % % % % % %     [ confMat, order ] = confusionMat(testLblVector, predictLblVector);  
-% % % % % % %     meanAcc = calcMeanAccuracy(15, testLblVector, predictLblVector);
-% % % % % % %     
-% % % % % % %     %save(strcat('../vars/',testName,'_predictLblVector.mat'),'predictLblVector');
-% % % % % % %     save(strcat('../vars/',testName,'_confMat.mat'),'confMat');
-% % % % % % %     save(strcat('../vars/',testName,'_order.mat'),'order');    
-% % % % % % %     save(strcat('../vars/',testName,'_accuracy.mat'),'accuracy');  
-% % % % % % %     save(strcat('../vars/',testName,'_meanAcc.mat'),'meanAcc');
-% % % % % % %     save(strcat('../vars/',testName,'_sceneNameList.mat'),'sceneNameList');
-% % % % % % %  
-% % % % % % %     if (delOld==1)
-% % % % % % %         deleteData(outDir);
-% % % % % % %     end          
-                       
                        
 end
 
