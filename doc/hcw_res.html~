@@ -31,30 +31,30 @@
 			</h2>
 			<ol type="0">
 			  <li>Home</li>
-			  <li><a href="doc/intro.html">Introduction<a></li>
-			    <li><a href="doc/hcw.html">Hard Code Word</a></li>
+			  <li><a href="intro.html">Introduction<a></li>
+			    <li><a href="hcw.html">Hard Code Word</a></li>
 				  <ol type="i">
-				    <li><a href="doc/hcw_res.html">Results</a></li>
+				    <li><a href="hcw_res.html">Results</a></li>
 				  </ol>
-			    <li><a href="doc/llc.html">Locality-constrained Linear</a></li>
+			    <li><a href="llc.html">Locality-constrained Linear</a></li>
 				  <ol type="i">
-				    <li><a href="doc/llc_res.html">Results</a></li>
+				    <li><a href="llc_res.html">Results</a></li>
 				  </ol>
-			    <li><a href="doc/gid.html">Grid Search</a></li>
-			    <li><a href="doc/shc.html">Sequential Hierarchy Classifier</a></li>
-			    <li><a href="doc/otherData.html">Other Dataset Evaluation</a></li>
+			    <li><a href="gid.html">Grid Search</a></li>
+			    <li><a href="shc.html">Sequential Hierarchy Classifier</a></li>
+			    <li><a href="otherData.html">Other Dataset Evaluation</a></li>
 				  <ol type="i">
-				    <li><a href="doc/birds_res.html">Birds</a></li>
-				    <li><a href="doc/butter_res.html">Butterflies</a></li>
+				    <li><a href="birds_res.html">Birds</a></li>
+				    <li><a href="butter_res.html">Butterflies</a></li>
 				  </ol>		
-			    <li><a href="doc/experiment.html">Other Experiments</a></li>
+			    <li><a href="experiment.html">Other Experiments</a></li>
 				  <ol type="i">
-				    <li><a href="doc/exp_res.html">Results</a></li>
+				    <li><a href="exp_res.html">Results</a></li>
 				  </ol>	 
-			  <li><a href="doc/dataset.html">Scene Datasets</a></li>
-			  <li><a href="doc/code.html">Code</a></li>
+			  <li><a href="dataset.html">Scene Datasets</a></li>
+			  <li><a href="code.html">Code</a></li>
 			  <li><a href="https://github.com/sladazzaro05/CV-P3-LLC/commits/master" target="_blank">Git Logs<a></li>
-			  <li><a href="doc/ref.html">References</a></li>
+			  <li><a href="ref.html">References</a></li>
 			</ol>
 			</font>
 		</td>
