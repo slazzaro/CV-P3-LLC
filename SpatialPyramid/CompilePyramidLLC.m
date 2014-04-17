@@ -61,7 +61,8 @@ binsHigh = 2^(params.pyramidLevels-1);
 if(exist('pfig','var'))
     %tic;
 end
-pyramid_all = zeros(length(imageFileList),params.dictionarySize*sum((2.^(0:(params.pyramidLevels-1))).^2));
+%pyramid_all = zeros(length(imageFileList),params.dictionarySize*sum((2.^(0:(params.pyramidLevels-1))).^2));
+pyramid_all = zeros(length(imageFileList),params.dictionarySize*params.pyramidLevels);
 for f = 1:length(imageFileList)
 
 
@@ -116,55 +117,86 @@ for f = 1:length(imageFileList)
     %% compute histograms at the coarser levels
     
     %ORIGINAL CODE
-%     num_bins = binsHigh/2;
-%     for l = 2:params.pyramidLevels
-%         pyramid_cell{l} = zeros(num_bins, num_bins, params.dictionarySize);
-%         for i=1:num_bins
-%             for j=1:num_bins
-%                 pyramid_cell{l}(i,j,:) = ...
-%                     pyramid_cell{l-1}(2*i-1,2*j-1,:) + pyramid_cell{l-1}(2*i,2*j-1,:) + ...
-%                     pyramid_cell{l-1}(2*i-1,2*j,:) + pyramid_cell{l-1}(2*i,2*j,:);
-%             end
-%         end
-%         num_bins = num_bins/2;
-%     end
-    
-    %LLC CODE
     num_bins = binsHigh/2;
     for l = 2:params.pyramidLevels
         pyramid_cell{l} = zeros(num_bins, num_bins, params.dictionarySize);
         for i=1:num_bins
             for j=1:num_bins
-                normSquared = 0;
-                for index = 1:params.dictionarySize
-                   pyramid_cell{l}(i,j,index) = max([pyramid_cell{l-1}(2*i-1,2*j-1,index), ...
-                       pyramid_cell{l-1}(2*i,2*j-1,index), ...
-                        pyramid_cell{l-1}(2*i-1,2*j,index), pyramid_cell{l-1}(2*i,2*j,index)]); 
-                    normSquared = normSquared + pyramid_cell{l}(i,j,index) ^ 2;
-                end
-                if (normSquared ~= 0)
-                    pyramid_cell{l}(i,j,:) = pyramid_cell{l}(i,j,:) / normSquared;
-                end
+                pyramid_cell{l}(i,j,:) = ...
+                    pyramid_cell{l-1}(2*i-1,2*j-1,:) + pyramid_cell{l-1}(2*i,2*j-1,:) + ...
+                    pyramid_cell{l-1}(2*i-1,2*j,:) + pyramid_cell{l-1}(2*i,2*j,:);
             end
         end
-        if (any(pyramid_cell{l}) == 0)
-            display('ALLLLLLLLLL ZEROEEEEEEEESS LLCCCCCCCCC');
-        end
         num_bins = num_bins/2;
-        %display(pyramid_cell{l});
     end
+    
+    %LLC CODE
+%     num_bins = binsHigh/2;
+%     for l = 2:params.pyramidLevels
+%         pyramid_cell{l} = zeros(num_bins, num_bins, params.dictionarySize);
+%         for i=1:num_bins
+%             for j=1:num_bins
+%                 normSquared = 0;
+%                 for index = 1:params.dictionarySize
+%                    pyramid_cell{l}(i,j,index) = max([pyramid_cell{l-1}(2*i-1,2*j-1,index), ...
+%                        pyramid_cell{l-1}(2*i,2*j-1,index), ...
+%                         pyramid_cell{l-1}(2*i-1,2*j,index), pyramid_cell{l-1}(2*i,2*j,index)]); 
+%                     normSquared = normSquared + pyramid_cell{l}(i,j,index) ^ 2;
+%                 end
+%                 if (normSquared ~= 0)
+%                     pyramid_cell{l}(i,j,:) = pyramid_cell{l}(i,j,:) / sqrt(normSquared);
+%                 end
+%             end
+%         end
+% %         if (any(pyramid_cell{l}) == 0)
+% %             display('ALLLLLLLLLL ZEROEEEEEEEESS LLCCCCCCCCC');
+% %         end
+%         num_bins = num_bins/2;
+%     end
 
 %% stack all the histograms with appropriate weights
+%ORIGINAL CODE
+
+%     pyramid = [];
+%     for l = 1:params.pyramidLevels-1
+%         pyramid = [pyramid pyramid_cell{l}(:)' .* 2^(-l)];
+%     end
+%     pyramid = [pyramid pyramid_cell{params.pyramidLevels}(:)' .* 2^(1-params.pyramidLevels)];
+
+    %LLC CODE
     pyramid = [];
-    for l = 1:params.pyramidLevels-1
-        pyramid = [pyramid pyramid_cell{l}(:)' .* 2^(-l)];
+    for l = 1:params.pyramidLevels
+        newMat = pyramid_cell{l}(1,1,:);
+        num_bins = size(pyramid_cell{l},1);
+        for index = 1:params.dictionarySize
+            maxC = 0;
+%             normSquared = 0;
+            for i=1:num_bins
+                for j=1:num_bins
+                    if (pyramid_cell{l}(i,j,index) > maxC)
+                        maxC = pyramid_cell{l}(i,j,index);
+                    end
+                    %normSquared = normSquared + pyramid_cell{l}(i,j,index) ^ 2;
+                end
+            end
+            %             if (normSquared ~= 0)
+            %                   maxC = maxC / sqrt(normSquared);
+            %             end
+            newMat(1,1,index) = maxC;
+        end
+        normSquared = 0;
+        for i = 1:params.dictionarySize
+            normSquared = normSquared + newMat(1,1,i) ^ 2;
+        end
+        if (normSquared ~= 0)
+            newMat(1,1,:) = newMat(1,1,:) ./ sqrt(normSquared);
+        end
+        pyramid = [pyramid newMat(:)'];
     end
-    pyramid = [pyramid pyramid_cell{params.pyramidLevels}(:)' .* 2^(1-params.pyramidLevels)];
 
     % save pyramid
     sp_make_dir(outFName);
     save(outFName, 'pyramid');
-
     pyramid_all(f,:) = pyramid;
 
 end % f

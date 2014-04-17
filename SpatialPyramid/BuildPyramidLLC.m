@@ -1,4 +1,4 @@
-function [ pyramid_all ] = BuildPyramidLLC( imageFileList, imageBaseDir, dataBaseDir, params, canSkip, saveSift )
+function [ pyramid_all ] = BuildPyramidLLC( imageFileList, imageBaseDir, dataBaseDir, k, params, canSkip, saveSift )
 %function [ pyramid_all ] = BuildPyramid( imageFileList, imageBaseDir, dataBaseDir, params, canSkip )
 %
 %Complete all steps necessary to build a spatial pyramid based
@@ -44,8 +44,8 @@ if(~exist('params','var'))
     params.maxImageSize = 1000
     params.gridSpacing = 8
     params.patchSize = 16
-    %params.dictionarySize = 2048
-    params.dictionarySize = 1024
+    params.dictionarySize = 2048
+    %params.dictionarySize = 1024
     params.numTextonImages = 50
     params.pyramidLevels = 3
     params.oldSift = false;
@@ -87,7 +87,7 @@ if(saveSift)
     GenerateSiftDescriptors( imageFileList,imageBaseDir,dataBaseDir,params,canSkip,pfig);
 end
 CalculateDictionary(imageFileList,imageBaseDir,dataBaseDir,'_sift.mat',params,canSkip,pfig);
-BuildHistogramsLLC(imageFileList,imageBaseDir,dataBaseDir,'_sift.mat',params,canSkip,pfig);
+BuildHistogramsLLC(imageFileList,imageBaseDir,dataBaseDir,k,'_sift.mat',params,canSkip,pfig);
 pyramid_all = CompilePyramidLLC(imageFileList,dataBaseDir,sprintf('_texton_ind_%d.mat',params.dictionarySize),params,canSkip,pfig);
 close(pfig);
 end

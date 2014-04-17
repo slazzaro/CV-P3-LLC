@@ -1,4 +1,4 @@
-function [ H_all ] = BuildHistogramsLLC( imageFileList,imageBaseDir, dataBaseDir, featureSuffix, params, canSkip, pfig )
+function [ H_all ] = BuildHistogramsLLC( imageFileList,imageBaseDir, dataBaseDir, k, featureSuffix, params, canSkip, pfig )
 %function [ H_all ] = BuildHistograms( imageFileList, dataBaseDir, featureSuffix, params, canSkip )
 %
 %find texton labels of patches and compute texton histograms of all images
@@ -108,27 +108,28 @@ for f = 1:length(imageFileList)
     texton_ind.hgt = features.hgt;
     %run in batches to keep the memory foot print small
     batchSize = 100000;
-    NEAREST_NEIGHBORS = 5;
+    NEAREST_NEIGHBORS = k;
     if ndata <= batchSize
         dist_mat = sp_dist2(features.data, dictionary);
         [sortedMat, indexes] = sort(dist_mat, 2);
         nearestDistances = sortedMat(:,1:NEAREST_NEIGHBORS);
         nearestDistances = normr(nearestDistances);
+        nearestDistances = nearestDistances.^2;
         numDescriptors = size(dist_mat,1);
-        countForClusters = zeros(params.dictionarySize);
+        countForClusters = zeros(params.dictionarySize, 1);
         for row = 1:numDescriptors
             for column = 1:NEAREST_NEIGHBORS
                 countCurrCluster = nearestDistances(row,column);
                 clusterNum = indexes(row, column);
-                countForClusters(clusterNum) = countForClusters(clusterNum) + countCurrCluster;
+                countForClusters(clusterNum, 1) = countForClusters(clusterNum, 1) + countCurrCluster;
             end
         end
-        countForClusters = round(countForClusters);
+        countForClusters = ceil(countForClusters);
         totalCount = sum(countForClusters(:));
         histMatrix = zeros(totalCount, 1);
         counter = 1;
-        for i = 1:length(countForClusters)
-            countOfCluster_i = countForClusters(i);
+        for i = 1:size(countForClusters, 1)
+            countOfCluster_i = countForClusters(i, 1);
             for j = 1:countOfCluster_i
                histMatrix(counter, 1) = i;
                counter = counter + 1; 
@@ -143,22 +144,23 @@ for f = 1:length(imageFileList)
             [sortedMat, indexes] = sortrows(dist_mat);
             nearestDistances = sortedMat(:,1:NEAREST_NEIGHBORS);
             nearestDistances = normr(nearestDistances);
+            nearestDistances = nearestDistances.^2;
             numDescriptors = size(dist_mat,1);
-            countForClusters = zeros(params.dictionarySize);
+            countForClusters = zeros(params.dictionarySize, 1);
             for row = 1:numDescriptors
                 for column = 1:NEAREST_NEIGHBORS
                     countCurrCluster = nearestDistances(row,column);
                     clusterNum = indexes(row, column);
-                    countForClusters(clusterNum) = countForClusters(clusterNum) + countCurrCluster;
+                    countForClusters(clusterNum, 1) = countForClusters(clusterNum, 1) + countCurrCluster;
                 end
             end
-            countForClusters = round(countForClusters);
+            countForClusters = ceil(countForClusters);
             totalCount = sum(countForClusters(:));
             histMatrix = zeros(totalCount, 1);
             counter = 1;
-            for i = 1:length(countForClusters)
-                countOfCluster_i = countForClusters(i);
-                for j = 1:countOfCluster_i
+            for i = 1:size(countForClusters, 1)
+                countOfCluster_i = countForClusters(i, 1);
+                for q = 1:countOfCluster_i
                     histMatrix(counter, 1) = i;
                     counter = counter + 1;
                 end
@@ -168,7 +170,8 @@ for f = 1:length(imageFileList)
     end
     
     H = hist(texton_ind.data, 1:params.dictionarySize);
-    H_all = [H_all; H];
+    %H = H ./ sum(H);
+    %H_all = [H_all; H];
 
     %% save texton indices and histograms
     sp_make_dir(outFName);
