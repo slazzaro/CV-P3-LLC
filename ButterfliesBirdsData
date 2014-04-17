@@ -1,0 +1,117 @@
+http://www-cvr.ai.uiuc.edu/ponce_grp/data/
+
+
+Butterflies (not too much data also, only 30 train images for each of 7 classes)
+
+gridSpacing: 6
+          patchSize: 16
+     dictionarySize: 2048
+    numTextonImages: 50
+      pyramidLevels: 3
+       maxImageSize: 1000
+            oldSift: 0
+LLC YES
+NO KERNEL
+
+Accuracy = 35.4523% (145/409)
+
+
+ gridSpacing: 6
+          patchSize: 16
+     dictionarySize: 2048
+    numTextonImages: 50
+      pyramidLevels: 3
+       maxImageSize: 1000
+            oldSift: 0
+LLC YES
+KERNEL
+Accuracy = 37.6528% (154/409)
+
+ gridSpacing: 4
+          patchSize: 16
+     dictionarySize: 2048
+    numTextonImages: 50
+      pyramidLevels: 3
+       maxImageSize: 1000
+            oldSift: 0
+NO LLC
+KERNEL
+
+Accuracy = 65.5257% (268/409)
+
+ gridSpacing: 4
+          patchSize: 16
+     dictionarySize: 2048
+    numTextonImages: 50
+      pyramidLevels: 3
+       maxImageSize: 1000
+            oldSift: 0
+NO LLC
+NO KERNEL
+
+Accuracy = 36.4303% (149/409)
+
+
+
+
+
+
+Birds (50 train images for each of 6 classes)
+
+        gridSpacing: 4
+          patchSize: 16
+     dictionarySize: 2048
+    numTextonImages: 50
+      pyramidLevels: 3
+       maxImageSize: 1000
+            oldSift: 0
+
+LLC YES
+NO KERNEL
+
+Accuracy = 47% (141/300)
+
+  gridSpacing: 4
+          patchSize: 16
+     dictionarySize: 2048
+    numTextonImages: 50
+      pyramidLevels: 3
+       maxImageSize: 1000
+            oldSift: 0
+
+LLC YES
+KERNEL
+
+Accuracy = 26% (78/300)
+
+
+        gridSpacing: 4
+          patchSize: 16
+     dictionarySize: 2048
+    numTextonImages: 50
+      pyramidLevels: 3
+       maxImageSize: 1000
+            oldSift: 0
+
+LLC NO
+NO KERNEL
+
+Accuracy = 43.6667% (141/300)
+
+  gridSpacing: 4
+          patchSize: 16
+     dictionarySize: 2048
+    numTextonImages: 50
+      pyramidLevels: 3
+       maxImageSize: 1000
+            oldSift: 0
+
+LLC NO
+KERNEL
+
+Accuracy = 65.3333% (196/300)
+
+
+
+
+
