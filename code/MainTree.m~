@@ -188,11 +188,68 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     c1trainLblVector=double(c1trainLblVector);
     c1trainfeatureVector=double(c1trainfeatureVector);
     c1testLblVector=double(c1testLblVector);
-    c1testfeatureVector=double(c1testfeatureVector);
-    c1trainLblVector=double(c1trainLblVector);
-    c1trainfeatureVector=double(c1trainfeatureVector);
-    c1testLblVector=double(c1testLblVector);
-    c1testfeatureVector=double(c1testfeatureVector);
+    c1testfeatureVector=double(c2testfeatureVector);
+    c2trainLblVector=double(c2trainLblVector);
+    c2trainfeatureVector=double(c2trainfeatureVector);
+    c2testLblVector=double(c2testLblVector);
+    c2testfeatureVector=double(c2testfeatureVector);
+    
+    %c1 sub classification
+    
+    addpath('../SpatialPyramid');
+    if (useKer==1)
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating C1 training kernel')); 
+        c1trainKernel = hist_isect(c1trainfeatureVector, c1trainfeatureVector);
+        c1trainKernel=sparse(c1trainKernel);
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating C1 testing kernel'));  
+        c1testKernel = hist_isect(c1testfeatureVector,c1trainfeatureVector);
+        c1testKernel=sparse(c1testKernel);       
+        
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating C2 training kernel')); 
+        c2trainKernel = hist_isect(c2trainfeatureVector, c2trainfeatureVector);
+        c2trainKernel=sparse(c2trainKernel);
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating C2 testing kernel'));  
+        c2testKernel = hist_isect(c2testfeatureVector,c2trainfeatureVector);
+        c2testKernel=sparse(c2testKernel);  
+    end   
+    rmpath('../SpatialPyramid');
+                       
+    addpath('../liblinear/matlab');    
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Training C model on LIBLINEAR')); 
+    if (useKer==1)
+        c1model = train(c1trainLblVector, c1trainKernel);  
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
+        [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testKernel, c1model);   
+        
+        c2model = train(c2trainLblVector, c2trainKernel);  
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C2 on LIBLINEAR'));    
+        [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testKernel, c2model); 
+    else
+        c1model = train(c1trainLblVector, c1trainfeatureVector); 
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
+        [c1predictLblVector, c1accuracy, c1decision_values] = predict(c1testLblVector, c1testfeatureVector, c1model);   
+        
+        c2model = train(c2trainLblVector, c2trainfeatureVector); 
+        display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Predict C1 on LIBLINEAR'));    
+        [c2predictLblVector, c2accuracy, c2decision_values] = predict(c2testLblVector, c2testfeatureVector, c2model);  
+    end
+    rmpath('../liblinear/matlab');
+    
+    nCount=0;
+    for i=1:length(c1predictLblVector)
+        nCount=nCount+1;
+        actualLbl(nCount)=c1testLblVector(i);
+        predictLbl(nCount)=c1predictLblVector(i)
+    end
+    
+    for i=1:length(testLblVector)
+        
+    end
+    
+    
+    
+    
+    
     
     
     if (useKer==1)
