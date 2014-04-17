@@ -5,8 +5,8 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
                    
 %     class1=['CALsuburb'	'MITcoast' 'MITforest' 'MIThighway'	'MITinsidecity'	'MITmountain' 'MITopencountry' 'MITstreet' 'MITtallbuilding'];
 %     class2=['PARoffice'	'bedroom' 'industrial' 'kitchen' 'livingroom' 'store'];               
-    class1=[1 2 3 4 5 6 7 8 9 ];
-    class2=[10 11 12 13 14 15];
+    class1=[1 2 3 4 5 6 7 8 9 12];
+    class2=[10 11 13 14 15];
     
     dirContents = dir(mainDir); % all dir contents
     subFolders=[dirContents(:).isdir]; % just subfolder
@@ -157,6 +157,7 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
 % % %     testLblVector=double(testLblVector);
 % % %     testfeatureVector=sparse(double(testfeatureVector));
     
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating training data for level2')); 
     c1Count=0;
     c2Count=0;    
     for i=1:length(trainLblVector)
@@ -171,9 +172,11 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
         end
     end
     
+    
+    display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Creating test data for level2'));
     c1Count=0;
     c2Count=0;
-    for i=1:length(l1predictLblVector)
+    for i=1:length(testLblVector)
         if(l1predictLblVector(i)==1)
             c1Count=c1Count+1;
             c1testLblVector(c1Count,1)=testLblVector(i);
@@ -188,7 +191,7 @@ function [  ] = MainTree( mainDir ,imgCount, testName, useLLC, useKer, ...
     c1trainLblVector=double(c1trainLblVector);
     c1trainfeatureVector=double(c1trainfeatureVector);
     c1testLblVector=double(c1testLblVector);
-    c1testfeatureVector=double(c2testfeatureVector); %5%%%
+    c1testfeatureVector=double(c1testfeatureVector); 
     c2trainLblVector=double(c2trainLblVector);
     c2trainfeatureVector=double(c2trainfeatureVector);
     c2testLblVector=double(c2testLblVector);
