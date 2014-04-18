@@ -30,7 +30,6 @@
 			</font>
 			</h2>
 			<ol type="0">
-			  <li><a href="../index.html">Home<a></li>
 			  <li><a href="intro.html">Introduction<a></li>
 			    <li><a href="hcw.html">Hard Code Word</a></li>
 				  <ol type="i">
@@ -87,6 +86,10 @@ Xu.  "Introduction to Scene Classification". http://pages.cs.wisc.edu/~jiaxu/mis
 <br>
 <li> 
 Wang, Yang, Yu, Lv, Huang, and Gong. "Locality-constrained Linear Coding for Image Classification". CVPR 2010.
+</li>
+<br>
+<li> 
+B V V Sri Raj Dutt, Pulkit Agrawal, and Sushoban Nayak. "Scene Classiﬁcation in Images". CVPR 2010.
 </li>
 </ol>
 
