@@ -74,32 +74,64 @@
 		<!-- ################################## -->
 			<font color ="ffffff">
 <h2> <center> Locality-constrained Linear Coding (LLC) </center> </h2>	
-
-LLC: Spatial Pyramid Matching with Soft Codeword Assignment
-<br>
-<br>
+<img align=right src="images/llc.jpg" width="425">
 
 We also experimented with the Locality-constrained Linear Coding method which involves
-a soft code word assignment in the spatial pyramid matching scheme.  LLC consists of
+using the spatial pyramid matching scheme but with a soft codeword assignment.  LLC consists of
 the following modifications to the original spatial pyramid code.
 
 <ol>
 	<li> Rather than assigning each SIFT descriptor to just 1 of the M clusters, 
 	find the k-nearest neighbors (out of the M clusters) for each of the SIFT descriptors 
-	in each image.  We chose to use k = 5. </li>
+	in each image.  We chose to use k = 5. </li><br>
 	<li> Then, use those nearest neighbors to reconstruct the feature x to be an M x 1 vector where
 		that vector has k non zero values.  These k values will be normalized according to the relevant
 		clusters' distances to the particular SIFT descriptor.
-		 </li>
+		 </li><br>
 	<li>  Rather than using a sum pooling method and concatenating all of the features for
 	each sub region in the spatial pyramid scheme, LLC uses a max pooling method.  This
-	involves taking the maximum c value (cluster assignment value) for each pyramid level, and
-	concatenating those M x 1 vectors to get the final pyramid.  Therefore, with the max pooling
-	method, the final feature representation will be an M x # pyramid levels matrix. </li>
+	involves taking the maximum c value (cluster assignment value) to construct the
+	c vector for each pyramid level, and then normalizing it by the length of that c vector. </li>
 </ol> 
-
 In using the LLC method, we found good results with the benefit of better computational speed!
 
+<br>
+
+<!--	<table>
+<tr align=center>
+<td>
+<img src="images/llc.jpg" width="485"></br>
+<font color="ffffff">
+(Source: Wang et. al)
+</font>
+</td>
+	<!--<td>
+	<img src="img/ToneMap-Matlab-6-100.jpg" width="485"></br>
+	<font color="ffffff">
+	Saturation=6, Smoothness=100
+	</font>
+	</td>
+	</tr>
+	<tr>
+	<td colspan=2>
+	<hr>
+	</td>
+	</tr>
+	<tr align=center>
+	<td>
+	<img src="img/ToneMap-Matlab-1-50.jpg" width="485"></br>
+	<font color="ffffff">
+	Saturation=1, Smoothness=50
+	</font>
+	</td>
+	<td>
+	<img src="img/ToneMap-Matlab-3-150.jpg" width="485"></br>
+	<font color="ffffff">
+	Saturation=3, Smoothness=150
+	</font>
+	</td>
+</tr>
+</table> --!-->
 
 
 
