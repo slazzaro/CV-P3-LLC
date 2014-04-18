@@ -30,7 +30,6 @@
 			</font>
 			</h2>
 			<ol type="0">
-			  <li>Home</li>
 			  <li><a href="doc/intro.html">Introduction<a></li>
 			    <li><a href="doc/hcw.html">Hard Code Word</a></li>
 				  <ol type="i">
@@ -68,13 +67,94 @@
 			</ol>
 			</font>
 		</td>
-		<td align=right>
+<td align=left>
 		<!-- ################################## -->
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
-		
+		<font color ="ffffff">
+<h2> <center> Introduction </center> </h2>
 
+In this project, we used a series of images from different scenes (e.g. bedrooms, mountains, etc.) 
+in order to train a predictor for future images of those scenes and classify those images appropriately.
+We used available spatial pyramid code and followed the process described below.
 
+<ul>
+	<li> Find SIFT descriptors for the images. </li>
+	<li> Then, we used the spatial pyramid
+		method in order to transfer these descriptors into a feature vector form that could be used to 
+		train a model and classify future images.  We ran the spatial pyramid method with and
+		without a Locality-constrained Linear Coding modification as well as with multiple pooling methods.
+		 </li>
+	<li> Once we had train and test feature vectors, we experimented
+		with running the vectors through different kernels.  After that, we predicted the 
+		labels/scenes for our test images using Support Vector
+		Machines from the Liblinear Matlab library.  </li>
+</ul>  
+
+<br> 
+<h3><center>Short Summary of Findings and Extensions</center></h3>
+
+<ol> 
+<li>
+<b>Locality-constrained Linear Coding:</b> We found that the LLC method did not give us as good of results
+as using a histogram intersection kernel with the traditional spatial pyramid method (67% vs. 74% accuracy); 
+however, we did find that the LLC method provided an improvement with respect to speed of computation.  It compiled the
+pyramids much faster and also did not require the extra time caused by using a histogram
+intersection kernel.  This was great news for us as the tradition spatial pyramid code was already taking an
+extremely long time to run!
+</li>
+<br>
+<li>
+<b>Grid Search:</b> We ran both the LLC and non LLC method with various parameter
+values and discovered the values that impacted and improved results the most.  Firstly, we
+found that using a histogram intersection kernel generally did not improve results with
+the LLC method, but it greatly improved results when not using the LLC method.  However, using
+the kernel was computationally expensive adding on about 4 minutes for classification.  Additionally,
+for both LLC and non-LLC, we found that smaller values of the gridSpacing parameter and larger
+dictionary sizes yielded better results.
+</li>
+<br>
+<li>
+<b>Sequential Hierarchy Classifier:</b> We also experimented with a sequential hierarchy
+classifier, or multiple levels of classification.
+What we mean by this is that we first split up our scenes into two groups, and then from there
+we would classify the scenes with SVM.  This provided a benefit as each of the two groups had less
+classes in total to find a prediction so the likelihood of choosing the correct class once in the 
+correct bin was increased.  As an example, consider the scenes being split by whether or not they
+are indoors or outdoors.  As long as a test scene was predicted to be in the correct bin, its
+likelihood of being classified correctly would greatly increase (as there are less scenes/incorrect 
+labels to compare to).
+</li>
+<br>
+<li>
+<b>Different Datasets:</b> We experimented with 2 other datasets for recognizing birds and butterflies that
+we retrieved from the <a href = "http://www-cvr.ai.uiuc.edu/ponce_grp/data/"> Ponce Research Group </a>.
+We originally believed that we would retrieve extremely bad accuracies for these datasets as differences between
+different birds and butterflies would be much more subtle than differences in scenes.  However,
+our results ended up being much better than expected giving accuracies up to 65% for each of those.
+</li>
+<br>
+<li>
+<b>Various classifiers and forms of classifiers:</b> In order to classify our images, we did not
+only use the standard Liblinear SVM classifier.  We experimented with the following modifications:
+<ul>
+<li>
+Linear kernel vs. histogram intersection kernel
+</li>
+<li>
+L2 regularized vs. Crammer and Singer
+</li>
+</ul>
+When we did not use the LLC method, we found that we retrieved much better results if we 
+used the histogram intersection kernel for prediction.  Without using
+kernels, we retrieved results in the range of 45% but after using kernels we found drastic
+improvements.  We also wrote up a simple k-nearest neighbor classifier and found that to work
+much faster than the SVM classifier, but it returned worse results (in the 50% accuracy range).
+</li>
+<br>
+</ol>
+</br>
+</br>
 
 
 

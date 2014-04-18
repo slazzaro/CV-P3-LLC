@@ -96,22 +96,30 @@ We used available spatial pyramid code and followed the process described below.
 
 <ol> 
 <li>
-<b>Locality-constrained Linear Coding:</b> We found that the LLC method did not give us as good of results
+<b>Various classifiers and forms of classifiers:</b> In order to classify our images, we did not
+only use the standard Liblinear SVM classifier.  We experimented with the following modifications:
+<ul>
+<li>
+Linear kernel vs. histogram intersection kernel
+</li>
+<li>
+L2 regularized vs. Crammer and Singer
+</li>
+</ul>
+When we did not use the LLC method, we found that we retrieved much better results if we 
+used the histogram intersection kernel for prediction.  Without using
+kernels, we retrieved results in the range of 45% but after using kernels we found drastic
+improvements.  We also wrote up a simple k-nearest neighbor classifier and found that to work
+much faster than the SVM classifier, but it returned worse results (in the 50% accuracy range).
+</li>
+<br>
+<li>
+<b>LLC improvements:</b> We found that the LLC method did not give us as good of results
 as using a histogram intersection kernel with the traditional spatial pyramid method (67% vs. 74% accuracy); 
 however, we did find that the LLC method provided an improvement with respect to speed of computation.  It compiled the
 pyramids much faster and also did not require the extra time caused by using a histogram
 intersection kernel.  This was great news for us as the tradition spatial pyramid code was already taking an
 extremely long time to run!
-</li>
-<br>
-<li>
-<b>Grid Search:</b> We ran both the LLC and non LLC method with various parameter
-values and discovered the values that impacted and improved results the most.  Firstly, we
-found that using a histogram intersection kernel generally did not improve results with
-the LLC method, but it greatly improved results when not using the LLC method.  However, using
-the kernel was computationally expensive adding on about 4 minutes for classification.  Additionally,
-for both LLC and non-LLC, we found that smaller values of the gridSpacing parameter and larger
-dictionary sizes yielded better results.
 </li>
 <br>
 <li>
@@ -135,23 +143,14 @@ our results ended up being much better than expected giving accuracies up to 65%
 </li>
 <br>
 <li>
-<b>Various classifiers and forms of classifiers:</b> In order to classify our images, we did not
-only use the standard Liblinear SVM classifier.  We experimented with the following modifications:
-<ul>
-<li>
-Linear kernel vs. histogram intersection kernel
+<b>Various Parameter values:</b> We ran both the LLC and non LLC method with various parameter
+values and discovered the values that impacted and improved results the most.  Firstly, we
+found that using a histogram intersection kernel generally did not improve results with
+the LLC method, but it greatly improved results when not using the LLC method.  However, using
+the kernel was computationally expensive adding on about 4 minutes for classification.  Additionally,
+for both LLC and non-LLC, we found that smaller values of the gridSpacing parameter and larger
+dictionary sizes yielded better results.
 </li>
-<li>
-L2 regularized vs. Crammer and Singer
-</li>
-</ul>
-When we did not use the LLC method, we found that we retrieved much better results if we 
-used the histogram intersection kernel for prediction.  Without using
-kernels, we retrieved results in the range of 45% but after using kernels we found drastic
-improvements.  We also wrote up a simple k-nearest neighbor classifier and found that to work
-much faster than the SVM classifier, but it returned worse results (in the 50% accuracy range).
-</li>
-<br>
 </ol>
 </br>
 </br>

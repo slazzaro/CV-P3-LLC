@@ -72,12 +72,23 @@
 		<!-- ################################## -->
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
-		
-<img src="img/llc_res.png" width="900">
+		<font color ="ffffff">
+
+<h2> <center> References </center> </h2>
+<ol>
 <br>
-<img src="img/llc_res2.png" width="960">
-
-
+<li> 
+Lazebnik, Schmid, and Ponce. "Beyond Bags of Features: Spatial Pyramid Matching for Recognizing Natural Scene Categories". CVPR 2006.
+</li>
+<br>
+<li> 
+Xu.  "Introduction to Scene Classification". http://pages.cs.wisc.edu/~jiaxu/misc/llc-lecture.pdf
+</li>
+<br>
+<li> 
+Wang, Yang, Yu, Lv, Huang, and Gong. "Locality-constrained Linear Coding for Image Classification". CVPR 2010.
+</li>
+</ol>
 
 
 

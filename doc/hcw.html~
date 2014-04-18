@@ -80,7 +80,7 @@
 We began our experiment by running the spatial pyramid method with hard code word
 assignment.  When we say hard code word assignment, we mean that after different
 clusters are generated using K-Means with our SIFT Descriptor features, each SIFT descriptor is
-assigned to 1 and only 1 cluster (as shown in the picture to the right each point is assigned to either
+assigned to 1 and only 1 cluster (e.g. picture to the right as each point is assigned to either
 red, blue, or green).  This is contrasted with soft code word assignment (e.g. LLC)
 where each SIFT descriptor contains a distribution of clusters it is assigned to where the values
 assigned to each cluster is based on the descriptor's distance to the relevant cluster.  Using the

@@ -30,7 +30,6 @@
 			</font>
 			</h2>
 			<ol type="0">
-			  <li><a href="../index.html">Home<a></li>
 			  <li><a href="intro.html">Introduction<a></li>
 			    <li><a href="hcw.html">Hard Code Word</a></li>
 				  <ol type="i">
@@ -74,11 +73,17 @@
 		<!-- ################################## -->
 				<font color ="ffffff">
 <h2> <center> Different Classifiers </center> </h2>
-
-We also experimented with some different classifiers and modifications of the SVM classifier
+<br>
+<h3> <center> SVM Modifications </center></h3>
+We experimented with some different classifiers as well as modifications of the SVM classifier
 with different kernels.  We found the SVM to give the best results when using the 
-histogram intersection kernel.  We also built a simple k-nearest neighbor classifier and
-as expected, did not find it to provide accuracies close to the range that SVM did.
+histogram intersection kernel.  Using a radial basis kernel, we retrieved extremely poor results that were near the level of chance.  
+<br>
+<h3> <center> k-Nearest Neighbor </center></h3>
+We also built a simple k-nearest neighbor classifier.  This performed extremely fast and gave us decent results with a mean accuracy of about 50% for using k=5 nearest neighbors.  However, as expected, that 50% does not compare to our results using SVM.
+<br>
+<h3> <center> Neural Networks </center></h3>
+Finally, we used the machine learning toolbox of Matlab and tried classifying using a neural network.  However, we could not get any meaningful results from this due to the problem of having too many features compared to the number of training examples.
 
 
 
