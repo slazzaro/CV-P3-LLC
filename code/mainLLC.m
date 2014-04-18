@@ -85,7 +85,7 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector,
     [predictLblVector, accuracy, decision_values] = predict(testLblVector, testfeatureVector, model);
     
     %knn
-%     predictLblVector = kNN(trainLblVector, trainfeatureVector, testLblVector, testfeatureVector, 50);
+%     predictLblVector = kNN(trainLblVector, trainfeatureVector, testLblVector, testfeatureVector, 5);
 
     %neural net
 %     display(strcat(datestr(now,'HH:MM:SS'),' [INFO] Feeding Forward net'));
@@ -101,12 +101,13 @@ function [ trainfeatureVector, testfeatureVector, trainLblVector, testLblVector,
 %     [predictLblVector,Xf,Af] = sim(net, testfeatureVector');
 %     %[predictLblVector,Xf,Af] = net(testfeatureVector);
     
-    display(predictLblVector);
+    %display(predictLblVector);
     
     rmpath('../liblinear/matlab');
     
     meanAccuracy = calcMeanAccuracy(sceneCount, testLblVector, predictLblVector');
     display(strcat('Mean accuracy:', num2str(meanAccuracy),'%'));
     
-    %[ mat, order ] = confusionMat(testLblVector, predictLblVector)
+    [ mat, order ] = confusionMat(testLblVector, predictLblVector);
+    display(mat);
 end
