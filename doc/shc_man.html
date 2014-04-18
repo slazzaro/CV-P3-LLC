@@ -73,18 +73,14 @@
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
 		<font color ="ffffff">
-<h3><center>Sequential Hierarchy Classifier</center></h3>
-We tried to implement a simple multi-level classifier and evaluate its performance. <br>
-The dataset is first assigned in two classes then sequential classification is done. <br>
-
-<img src="img/manlevel.png" width="600"> <br>
-The motivation for this approach is that certain scenes are inherently very different from others;
-hence if we can initally separate them in diffrent bags and drill down to the fewer possible classes may be we can reduce our errors.<br><br>
-Two approaces were employed for the level come classification:<br>
+<h2> <center> Manually Assigned Clusters</center> </h2>	
+In the first level we manually assumed they were broadly 2 general types of scenes:
 <ol type="1">
-	<li><a href="shc_res.html">Manually assigning clusters</a></li>
-	<li><a href="shc_res.html">Using K-mean to find similar categories</a></li>
-</ol>	 
+<li>Outdoor Scenes</li>
+<li>Indoor Scenes</li>
+</ol>	
+The Images were first classified as Outdoors or Indoor with a trained model and then further classification was done with new models learned.
+<center><img src="img/manlevel.png" width="600"></center> <br>
 
 
 

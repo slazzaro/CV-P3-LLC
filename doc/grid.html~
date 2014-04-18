@@ -68,12 +68,19 @@
 			</ol>
 			</font>
 		</td>
-		<td align=right>
+		<td align=left>
 		<!-- ################################## -->
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
 		
+		
+<font color="ffffff">
 
+<<<<<<< HEAD
+=======
+<h4> Grid Search Results:</h4>	
+We experimented with diffrent parameters and below are some of the results:
+>>>>>>> 7223d922bfe0c678f5564a73305a63020da79f0c
 <img src="img/grid.png" width="960"> 
 
 

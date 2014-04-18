@@ -73,15 +73,25 @@
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
 		
+			<font color="ffffff">
+<h2> <center> Hard Code Word Assignment </center> </h2>	
+
+<h4> Confusion Matrix (Normalized)</h4>	
 <img src="img/hcw_res.png" width="900">
 <br>
+<<<<<<< HEAD
 <img src="img/hcw_res2.png" width="960">
 
+=======
+<h4> Confusion Matrix (Non-Normalized)</h4>	
+<img src="img/hcw_res2.png" width="960">
+>>>>>>> 7223d922bfe0c678f5564a73305a63020da79f0c
 
 
 
 
 
+		</font>
 		<!-- ################################## -->
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
