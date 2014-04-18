@@ -73,7 +73,7 @@
 		<!-- ############ EDIT AREA ########### -->
 		<!-- ################################## -->
 		<font color ="ffffff">
-<h3><center>Sequential Hierarchy Classifier</center></h3>
+<h2><center>Sequential Hierarchy Classifier</center></h2>
 We tried to implement a simple multi-level classifier and evaluate its performance. <br>
 The dataset is first assigned in two classes then sequential classification is done. <br>
 <img src="img/genlevel.png" width="600"> <br>
